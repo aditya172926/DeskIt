@@ -1,27 +1,29 @@
-use std::fmt::{Display, Formatter};
 use reqwest::StatusCode;
+use std::fmt::{Display, Formatter};
 
 #[derive(Debug)]
 pub struct TauriError {
-    pub message: &'static str
+    pub message: &'static str,
 }
 
 impl From<reqwest::Error> for TauriError {
-    fn from (error: reqwest::Error) -> Self {
+    fn from(error: reqwest::Error) -> Self {
         let error_message = match error.status().unwrap() {
             StatusCode::FORBIDDEN => "This endpoint requires a token",
             StatusCode::BAD_REQUEST => "There was a problem with your request",
-            _ => "Something went wrong handling this request"
+            _ => "Something went wrong handling this request",
         };
         TauriError {
-            message: error_message
+            message: error_message,
         }
     }
 }
 
 impl serde::Serialize for TauriError {
-    fn serialize<S>(&self, serializer:S) -> Result<S::Ok, S::Error> where S: serde::ser::Serializer,
-    { 
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::Serializer,
+    {
         serializer.serialize_str(self.to_string().as_ref())
     }
 }
