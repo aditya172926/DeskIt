@@ -39,6 +39,15 @@ export interface Gist extends GithubItem {
     files: GistFile[];
 }
 
-
+export interface NewGistItem {
+    id: string;
+}
 
 export type Nullable<T> = T | null;
+
+export interface Repository extends GithubItem {
+    name: string;
+    stargazers_url: string;
+    commits_url: string;
+    contributors_url: string;
+}
