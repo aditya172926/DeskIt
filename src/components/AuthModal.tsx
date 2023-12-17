@@ -3,7 +3,7 @@ import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 interface Props {
   shouldShowModal: boolean;
-  onSubmit: (token: String) => void;
+  onSubmit: (token: string) => void;
   onCancel: () => void;
 }
 
