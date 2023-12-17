@@ -1,5 +1,7 @@
 use crate::api::{make_get_request, make_post_request};
-use crate::models::{APIResult, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL};
+use crate::models::{
+    APIResult, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL,
+};
 
 #[tauri::command]
 pub fn get_public_gists() -> APIResult<Vec<Gist>> {
@@ -36,7 +38,10 @@ pub fn get_gist_content(url: String, token: Option<&str>) -> APIResult<String> {
 }
 
 #[tauri::command]
-pub fn get_users_associated_with_repository(url: String, token: Option<&str>) -> APIResult<Vec<GithubUser>> {
+pub fn get_users_associated_with_repository(
+    url: String,
+    token: Option<&str>,
+) -> APIResult<Vec<GithubUser>> {
     let response = make_get_request(URL::WithoutBaseUrl(url), token)?;
     let response: Vec<GithubUser> = serde_json::from_str(&response).unwrap();
     Ok(response)

@@ -28,7 +28,11 @@ pub fn make_get_request(url: URL, token: Option<&str>) -> APIResult<String> {
     Ok(response_body)
 }
 
-pub fn make_post_request<T: Serialize>(url: URL, token: Option<&str>, data: T) -> APIResult<String> {
+pub fn make_post_request<T: Serialize>(
+    url: URL,
+    token: Option<&str>,
+    data: T,
+) -> APIResult<String> {
     let url = url.value();
     let client = reqwest::blocking::Client::new();
     let response = client
