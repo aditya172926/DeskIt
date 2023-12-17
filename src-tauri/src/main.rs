@@ -3,6 +3,7 @@
 mod error;
 mod models;
 mod api;
+mod command;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]

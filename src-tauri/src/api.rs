@@ -20,7 +20,7 @@ fn construct_headers(token: Option<&str>) -> HeaderMap {
     headers
 }
 
-fn make_get_request(url: URL, token: Option<&str>) -> APIResult<String> {
+pub fn make_get_request(url: URL, token: Option<&str>) -> APIResult<String> {
     let url = url.value();
     let client = reqwest::blocking::Client::new();
     let response = client.get(url).headers(construct_headers(token)).send()?;
@@ -28,7 +28,7 @@ fn make_get_request(url: URL, token: Option<&str>) -> APIResult<String> {
     Ok(response_body)
 }
 
-fn make_post_request<T: Serialize>(url: URL, token: Option<&str>, data: T) -> APIResult<String> {
+pub fn make_post_request<T: Serialize>(url: URL, token: Option<&str>, data: T) -> APIResult<String> {
     let url = url.value();
     let client = reqwest::blocking::Client::new();
     let response = client
