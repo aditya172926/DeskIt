@@ -5,7 +5,7 @@ interface Props {
   users: GithubUser[];
 }
 
-const UserGrid = ({ users }: Props) => {
+const GithubUserGrid = ({ users }: Props) => (
   <List
     grid={{ gutter: 16, column: 4 }}
     dataSource={users}
@@ -17,7 +17,7 @@ const UserGrid = ({ users }: Props) => {
         />
       </List.Item>
     )}
-  />;
-};
+  />
+);
 
-export default UserGrid;
+export default GithubUserGrid;
