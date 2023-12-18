@@ -84,3 +84,5 @@ const RepositoryDetails = ({ repository, token = null }: Props) => {
     </Card>
   );
 };
+
+export default RepositoryDetails;
