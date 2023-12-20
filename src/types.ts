@@ -39,7 +39,7 @@ export interface Gist extends GithubItem {
     files: GistFile[];
 }
 
-export interface NewGistItem {
+export interface NewGistResponse {
     id: string;
 }
 

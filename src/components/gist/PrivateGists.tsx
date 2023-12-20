@@ -55,3 +55,5 @@ const PrivateGists = () => {
     </>
   );
 };
+
+export default PrivateGists;
