@@ -1,9 +1,9 @@
-import { Carousel, Col, Row, Spin, Typography } from "antd";
-import React, { useEffect, useState } from "react";
-import "prismjs/themes/prism-okaidia.min.css";
-import Prism from "prismjs";
-import { CodeSnippet, Gist } from "../../types";
 import { invoke } from "@tauri-apps/api/tauri";
+import { Carousel, Col, Row, Spin, Typography } from "antd";
+import Prism from "prismjs";
+import "prismjs/themes/prism-okaidia.min.css";
+import { useEffect, useState } from "react";
+import { CodeSnippet, Gist } from "../../types";
 
 interface Props {
   gist: Gist;

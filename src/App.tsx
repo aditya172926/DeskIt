@@ -1,10 +1,7 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
-import NavBar from "./components/NavBar";
 import { FloatButton, Layout } from "antd";
 import { Outlet } from "react-router-dom";
+import "./App.css";
+import NavBar from "./components/NavBar";
 
 const {Content} = Layout;
 

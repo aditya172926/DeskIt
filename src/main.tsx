@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
-import "./styles.css";
-import routes from "./routes";
 import { createHashRouter, RouterProvider } from "react-router-dom";
+import routes from "./routes";
+import "./styles.css";
 
 const router = createHashRouter(routes);
 
