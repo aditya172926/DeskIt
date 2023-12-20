@@ -60,8 +60,8 @@ pub struct Repository {
     description: Option<String>,
     owner: GithubUser,
     stargazers_url: String,
-    commits_urls: String,
-    contributors_urls: String,
+    commits_url: String,
+    contributors_url: String,
 }
 
 pub enum URL {

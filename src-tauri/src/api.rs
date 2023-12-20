@@ -1,5 +1,5 @@
 use crate::models::{APIResult, URL};
-use reqwest::header::{HeaderMap, HeaderValue, ACCEPT, AUTHORIZATION, USER_AGENT};
+use reqwest::header::{HeaderMap, HeaderValue, HeaderName, ACCEPT, AUTHORIZATION, USER_AGENT};
 use serde::Serialize;
 
 fn construct_headers(token: Option<&str>) -> HeaderMap {
@@ -10,6 +10,8 @@ fn construct_headers(token: Option<&str>) -> HeaderMap {
         HeaderValue::from_static("application/vnd.github+json"),
     );
     headers.insert(USER_AGENT, HeaderValue::from_static("Dashhub demo"));
+
+    headers.insert("X-GitHub-Api-Version", HeaderValue::from_static("2022-11-28"));
 
     if let Some(token) = token {
         let token = format!("Bearer {token}");

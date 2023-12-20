@@ -20,6 +20,7 @@ pub fn get_public_repositories() -> APIResult<Vec<Repository>> {
 #[tauri::command]
 pub fn get_repositories_for_authenticated_user(token: &str) -> APIResult<Vec<Repository>> {
     let response = make_get_request(URL::WithBaseUrl("users/repos?type=private"), Some(token))?;
+    println!("Authenticated user repository response {:?}", response);
     let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
