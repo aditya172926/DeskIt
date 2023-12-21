@@ -34,7 +34,7 @@
     },
     "windows": [
       {
-        "fullscreen": false,
+        "fullscreen": true,
         "resizable": true,
         "title": "deskhub",
         "width": 800,
