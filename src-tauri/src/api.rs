@@ -1,5 +1,5 @@
 use crate::models::{APIResult, URL};
-use reqwest::header::{HeaderMap, HeaderValue, HeaderName, ACCEPT, AUTHORIZATION, USER_AGENT};
+use reqwest::header::{HeaderMap, HeaderValue, ACCEPT, AUTHORIZATION, USER_AGENT};
 use serde::Serialize;
 
 fn construct_headers(token: Option<&str>) -> HeaderMap {
