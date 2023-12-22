@@ -12,7 +12,7 @@ const GithubUserGrid = ({ users }: Props) => (
     renderItem={(user, index) => (
       <List.Item key={index} style={{ marginTop: "5px" }}>
         <Card.Meta
-          avatar={<Avatar src={user.avatar_url} />}
+          avatar={<Avatar src={user.avatar_url} />} 
           title={user.login}
         />
       </List.Item>
