@@ -3,7 +3,7 @@
 use command::{
     create_new_gist, get_commits_to_repository, get_gist_content, get_gist_for_authenticated_user,
     get_public_gists, get_public_repositories, get_repositories_for_authenticated_user,
-    get_users_associated_with_repository,
+    get_users_associated_with_repository, get_public_repositories_for_user
 };
 mod api;
 mod command;
@@ -22,7 +22,8 @@ fn main() {
             get_public_gists,
             get_public_repositories,
             get_repositories_for_authenticated_user,
-            get_users_associated_with_repository
+            get_users_associated_with_repository,
+            get_public_repositories_for_user
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

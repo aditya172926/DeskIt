@@ -65,7 +65,7 @@ pub struct Repository {
 }
 
 pub enum URL {
-    WithBaseUrl(&'static str),
+    WithBaseUrl(String),
     WithoutBaseUrl(String),
 }
 

@@ -5,21 +5,21 @@ use crate::models::{
 
 #[tauri::command]
 pub fn get_public_gists() -> APIResult<Vec<Gist>> {
-    let response = make_get_request(URL::WithBaseUrl("gists"), None)?;
+    let response = make_get_request(URL::WithBaseUrl(String::from("gists")), None)?;
     let response: Vec<Gist> = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
 
 #[tauri::command]
 pub fn get_public_repositories() -> APIResult<Vec<Repository>> {
-    let response = make_get_request(URL::WithBaseUrl("repositories"), None)?;
+    let response = make_get_request(URL::WithBaseUrl(String::from("repositories")), None)?;
     let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
 
 #[tauri::command]
 pub fn get_repositories_for_authenticated_user(token: &str) -> APIResult<Vec<Repository>> {
-    let response = make_get_request(URL::WithBaseUrl("users/repos?type=private"), Some(token))?;
+    let response = make_get_request(URL::WithBaseUrl(String::from("users/repos?type=private")), Some(token))?;
     println!("Authenticated user repository response {:?}", response);
     let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
@@ -27,7 +27,7 @@ pub fn get_repositories_for_authenticated_user(token: &str) -> APIResult<Vec<Rep
 
 #[tauri::command]
 pub fn get_gist_for_authenticated_user(token: &str) -> APIResult<Vec<Gist>> {
-    let response = make_get_request(URL::WithBaseUrl("gists"), Some(token))?;
+    let response = make_get_request(URL::WithBaseUrl(String::from("gists")), Some(token))?;
     let response: Vec<Gist> = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
@@ -57,7 +57,14 @@ pub fn get_commits_to_repository(url: String, token: Option<&str>) -> APIResult<
 
 #[tauri::command]
 pub fn create_new_gist(gist: GistInput, token: &str) -> APIResult<NewGistResponse> {
-    let response = make_post_request(URL::WithBaseUrl("gists"), Some(token), gist)?;
+    let response = make_post_request(URL::WithBaseUrl(String::from("gists")), Some(token), gist)?;
     let response: NewGistResponse = serde_json::from_str(&response).unwrap();
+    Ok(response)
+}
+
+#[tauri::command]
+pub fn get_public_repositories_for_user(username: String) -> APIResult<Vec<Repository>> {
+    let response = make_get_request(URL::WithBaseUrl(format!("users/{}/repos", username)), None)?;
+    let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
