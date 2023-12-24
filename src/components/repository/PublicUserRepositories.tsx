@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { Col, message, Modal, Form, Input } from "antd";
-import { Nullable, Repository } from "../../types";
-import RepositoryDetails from "./RepositoryDetails";
-import MasterDetail from "../MasterDetail";
+import { SearchOutlined } from "@ant-design/icons";
 import { invoke } from "@tauri-apps/api/tauri";
+import { Button, Col, Form, Input, Modal, message } from "antd";
+import { useState } from "react";
 import { getErrorMessage } from "../../helper";
+import { Nullable, Repository } from "../../types";
+import MasterDetail from "../MasterDetail";
+import RepositoryDetails from "./RepositoryDetails";
 
 
 const PublicUserRepositories = () => {
@@ -24,6 +25,8 @@ const PublicUserRepositories = () => {
       );
       console.log("User Public repos ", repositories);
       setRepositories(repositories);
+      setUsername(username)
+      setShouldShowModal(false);
     } catch (error) {
       messageApi.open({
         type: "error",
@@ -34,12 +37,11 @@ const PublicUserRepositories = () => {
 
   const onFormSubmit = () => {
     form.validateFields().then((values: any) => {
-        setUsername(values.username)
         getUserPublicRepositories(values.username);
     });
   };
 
-  const usernameModal = () => {
+  const UsernameModal = () => {
     return (
         <Modal title="Enter Github username"
         centered
@@ -75,7 +77,8 @@ const PublicUserRepositories = () => {
   return (
     <>
       {contextHolder}
-      {usernameModal}
+      <UsernameModal />
+      <Button type="primary" shape="circle" icon={<SearchOutlined />} onClick={() => setShouldShowModal(true)} />
       <MasterDetail
         title={title}
         items={repositories}

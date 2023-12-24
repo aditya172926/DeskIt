@@ -25,6 +25,7 @@ const items: MenuProps["items"] = [
   getItem("Public Actions", "sub1", <UnlockOutlined />, [
     getItem("Repositories", "g1", null, [
       getItem(<Link to={"repositories/public"}>View all repos</Link>, "1"),
+      getItem(<Link to={"repositories/my_public_repos"}>User Repos</Link>, "2")
     ]),
     getItem("Gists", "g2", null, [
       getItem(<Link to={"gists/public"}>View all gists</Link>, "3"),

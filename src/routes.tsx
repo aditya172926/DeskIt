@@ -5,6 +5,7 @@ import PublicGists from "./components/gist/PublicGists";
 import PrivateRepositories from "./components/repository/PrivateRepositories";
 import PublicRepositories from "./components/repository/PublicRepositories";
 import AuthContextProvider from "./components/context/AuthContext";
+import PublicUserRepositories from "./components/repository/PublicUserRepositories";
 
 const routes = [
   {
@@ -29,6 +30,10 @@ const routes = [
             <PrivateRepositories />
           </AuthContextProvider>
         ),
+      },
+      {
+        path: "repositories/my_public_repos",
+        element: <PublicUserRepositories />
       },
       {
         path: "gists/private",
