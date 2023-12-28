@@ -6,7 +6,7 @@ import { getErrorMessage } from "../../helper";
 import { Nullable, Repository } from "../../types";
 import MasterDetail from "../MasterDetail";
 import RepositoryDetails from "./RepositoryDetails";
-
+import ModalInterface from "../ui/ModalInterface";
 
 const PublicUserRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
@@ -25,7 +25,7 @@ const PublicUserRepositories = () => {
       );
       console.log("User Public repos ", repositories);
       setRepositories(repositories);
-      setUsername(username)
+      setUsername(username);
       setShouldShowModal(false);
     } catch (error) {
       messageApi.open({
@@ -37,31 +37,42 @@ const PublicUserRepositories = () => {
 
   const onFormSubmit = () => {
     form.validateFields().then((values: any) => {
-        getUserPublicRepositories(values.username);
+      getUserPublicRepositories(values.username);
     });
   };
 
   const UsernameModal = () => {
     return (
-        <Modal title="Enter Github username"
-        centered
+      <ModalInterface
+        title="Enter Github username"
+        centered={true}
         okText="Done"
         cancelText="Cancel"
         open={shouldShowModal}
-        onOk={onFormSubmit}>
-            <Form form={form} name="username_form" initialValues={{username: ""}}>
-                <Form.Item name="username" label="username" rules={[
-                    {
-                        required: true,
-                        message: "Please provide your username"
-                    }
-                ]}>
-                    <Input placeholder="Username" />
-                </Form.Item>
-            </Form>
-        </Modal>
-    )
-  }
+        onOk={onFormSubmit}
+        modalDisplay={
+          <Form
+            form={form}
+            name="username_form"
+            initialValues={{ username: "" }}
+          >
+            <Form.Item
+              name="username"
+              label="username"
+              rules={[
+                {
+                  required: true,
+                  message: "Please provide your username",
+                },
+              ]}
+            >
+              <Input placeholder="Username" />
+            </Form.Item>
+          </Form>
+        }
+      />
+    );
+  };
 
   const title = username ? `${username} public repositories` : "";
   const getItemDescription = (repository: Repository) => repository.name;
@@ -78,7 +89,12 @@ const PublicUserRepositories = () => {
     <>
       {contextHolder}
       <UsernameModal />
-      <Button type="primary" shape="circle" icon={<SearchOutlined />} onClick={() => setShouldShowModal(true)} />
+      <Button
+        type="primary"
+        shape="circle"
+        icon={<SearchOutlined />}
+        onClick={() => setShouldShowModal(true)}
+      />
       <MasterDetail
         title={title}
         items={repositories}
