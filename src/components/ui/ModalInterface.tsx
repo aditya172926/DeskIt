@@ -10,7 +10,7 @@ interface Props {
   onOk: () => void;
   onCancel?: () => void;
   open: boolean;
-  modalDisplay: Nullable<ReactNode>;
+  detailLayout: Nullable<ReactNode>;
 }
 
 const ModalInterface = ({
@@ -21,7 +21,7 @@ const ModalInterface = ({
   onOk,
   onCancel,
   open,
-  modalDisplay,
+  detailLayout,
 }: Props) => {
   return (
     <Modal
@@ -33,7 +33,7 @@ const ModalInterface = ({
       onOk={onOk}
       onCancel={onCancel}
     >
-      {modalDisplay}
+      {detailLayout}
     </Modal>
   );
 };

@@ -7,6 +7,7 @@ import { Nullable, Repository } from "../../types";
 import MasterDetail from "../MasterDetail";
 import RepositoryDetails from "./RepositoryDetails";
 import ModalInterface from "../ui/ModalInterface";
+import { SearchInterface, SearchUIType } from "../ui/SearchInterface";
 
 const PublicUserRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
@@ -50,7 +51,8 @@ const PublicUserRepositories = () => {
         cancelText="Cancel"
         open={shouldShowModal}
         onOk={onFormSubmit}
-        modalDisplay={
+        onCancel={() => setShouldShowModal(false)}
+        detailLayout={
           <Form
             form={form}
             name="username_form"
@@ -89,9 +91,8 @@ const PublicUserRepositories = () => {
     <>
       {contextHolder}
       <UsernameModal />
-      <Button
-        type="primary"
-        shape="circle"
+      <SearchInterface
+        type={SearchUIType.Button}
         icon={<SearchOutlined />}
         onClick={() => setShouldShowModal(true)}
       />
