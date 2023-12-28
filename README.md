@@ -1,2 +1,2 @@
-![DeskHub](/app-icon.png)
+![DeskHub](/app-icon.png?raw=true "DeskHub")
 DeskHub
