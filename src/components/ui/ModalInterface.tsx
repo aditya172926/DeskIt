@@ -1,6 +1,6 @@
-import { Button, Col, Form, Input, Modal, message } from "antd";
-import { GithubItem, Nullable } from "../../types";
+import { Modal } from "antd";
 import { ReactNode } from "react";
+import { Nullable } from "../../types";
 
 interface Props {
   title: string;
