@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Commit, GithubUser, Nullable, Repository } from "../../types";
-import { Card, Spin, Timeline, Divider, Typography } from "antd";
+import { Activity, Commit, GithubUser, Nullable, Repository } from "../../types";
+import { Card, Spin, Timeline, Divider, Typography, Avatar } from "antd";
 import GithubUserGrid from "./GithubUserGrid";
 import { invoke } from "@tauri-apps/api/tauri";
 
@@ -72,7 +72,7 @@ const RepositoryDetails = ({ repository, token = null }: Props) => {
           {commits.map((commit, index) => {
             if (commit.commit) {
               return (
-                <Timeline.Item key={index}>
+                <Timeline.Item key={index} dot={<Avatar src={commit.committer?.avatar_url} />}>
                   {commit.commit?.message}
                 </Timeline.Item>
               );

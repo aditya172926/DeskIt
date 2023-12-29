@@ -1,9 +1,34 @@
 export interface Commit {
     commit: Nullable<CommitNode>;
+    committer: Nullable<Committer>
 }
 
 export interface CommitNode {
     message: string;
+    author: {name: string}
+}
+
+export interface Committer {
+    avatar_url: Nullable<string>
+}
+
+export interface Activity {
+    activity: Nullable<ActivityNode>
+}
+
+export interface ActivityNode {
+    id: string;
+    ref: string;
+    timestamp: string;
+    activity_type: string;
+    actor: ActivityActor;
+}
+
+export interface ActivityActor {
+    login: string;
+    avatar_url: Nullable<string>;
+    url: Nullable<string>;
+    repos_url: Nullable<string>;
 }
 
 export interface CodeSnippet {

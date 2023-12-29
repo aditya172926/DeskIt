@@ -7,11 +7,24 @@ pub type APIResult<T, E = TauriError> = Result<T, E>;
 #[derive(Deserialize, Serialize)]
 pub struct Commit {
     commit: Option<CommitNode>,
+    committer: Option<Committer>
 }
 
 #[derive(Deserialize, Serialize)]
 pub struct CommitNode {
     message: String,
+    author: Option<CommitAuthor>
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct CommitAuthor {
+    name: String
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct Committer {
+    login: String,
+    avatar_url: Option<String>
 }
 
 #[derive(Deserialize, Serialize)]
