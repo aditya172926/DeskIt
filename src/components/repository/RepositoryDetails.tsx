@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Activity, Commit, GithubUser, Nullable, Repository } from "../../types";
-import { Card, Spin, Timeline, Divider, Typography, Avatar } from "antd";
-import GithubUserGrid from "./GithubUserGrid";
 import { invoke } from "@tauri-apps/api/tauri";
+import { Avatar, Card, Divider, Spin, Timeline, Typography } from "antd";
+import { useEffect, useState } from "react";
+import { Commit, GithubUser, Nullable, Repository } from "../../types";
+import GithubUserGrid from "./GithubUserGrid";
 
 interface Props {
   repository: Repository;
@@ -73,7 +73,7 @@ const RepositoryDetails = ({ repository, token = null }: Props) => {
             if (commit.commit) {
               return (
                 <Timeline.Item key={index} dot={<Avatar src={commit.committer?.avatar_url} />}>
-                  {commit.commit?.message}
+                  <p style={{padding: "0px 5px 0px 5px"}}>{commit.commit?.message}</p>
                 </Timeline.Item>
               );
             }

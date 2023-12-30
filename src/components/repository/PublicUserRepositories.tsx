@@ -1,13 +1,13 @@
 import { SearchOutlined } from "@ant-design/icons";
 import { invoke } from "@tauri-apps/api/tauri";
-import { Button, Col, Form, Input, Modal, message } from "antd";
+import { Col, Form, Input, message } from "antd";
 import { useState } from "react";
 import { getErrorMessage } from "../../helper";
 import { Nullable, Repository } from "../../types";
 import MasterDetail from "../MasterDetail";
-import RepositoryDetails from "./RepositoryDetails";
 import ModalInterface from "../ui/ModalInterface";
 import { SearchInterface, SearchUIType } from "../ui/SearchInterface";
+import RepositoryDetails from "./RepositoryDetails";
 
 const PublicUserRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
