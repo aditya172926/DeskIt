@@ -36,7 +36,7 @@ pub struct Gist {
     public: bool,
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct GithubUser {
     login: String,
     avatar_url: Option<String>,
@@ -66,7 +66,7 @@ pub struct NewGistResponse {
     id: String,
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Debug)]
 pub struct Repository {
     id: i32,
     name: String,

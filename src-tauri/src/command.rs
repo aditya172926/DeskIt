@@ -1,3 +1,5 @@
+use std::process::exit;
+
 use crate::api::{make_get_request, make_post_request};
 use crate::models::{
     APIResult, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL,
@@ -13,7 +15,15 @@ pub fn get_public_gists() -> APIResult<Vec<Gist>> {
 #[tauri::command]
 pub fn get_public_repositories() -> APIResult<Vec<Repository>> {
     let response = make_get_request(URL::WithBaseUrl(String::from("repositories")), None)?;
-    let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
+    let response: Vec<Repository> = match serde_json::from_str(&response) {
+        Ok(result) => {
+            result
+        },
+        Err(error) => {
+            println!("Error in API {:?}", &error);
+            exit(1);
+        }
+    };
     Ok(response)
 }
 
