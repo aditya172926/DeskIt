@@ -40,19 +40,12 @@ const items: MenuProps["items"] = [
       getItem(<Link to={"gist/new"}>Create new gist</Link>, "7"),
     ]),
   ]),
+  getItem(<Link to={"profile"}>Profile</Link>, "8")
 ];
 
 const NavBar = () => {
   return (
     <Layout.Header style={{ background: "while" }}>
-      <div
-        className="logo"
-        style={{ float: "left", marginRight: "200px", padding: "1%" }}
-      >
-        <Link to="/">
-          <img src="./tauri.svg" alt="Tauri logo" style={{ width: "40px" }} />
-        </Link>
-      </div>
       <Menu
         defaultSelectedKeys={["1"]}
         mode="horizontal"

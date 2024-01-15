@@ -78,3 +78,8 @@ pub fn get_public_repositories_for_user(username: String) -> APIResult<Vec<Repos
     let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
+
+// #[tauri::command]
+// pub fn get_user_profile(username: String) -> APIResult<GithubUser> {
+
+// }
