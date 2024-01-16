@@ -17,7 +17,7 @@ const UserProfile = () => {
 
       }
     }
-    getUserProfile("aditya172926");
+    getUserProfile("aditya172926"); // hardcoded profile value
   }, [])
 
   return (
