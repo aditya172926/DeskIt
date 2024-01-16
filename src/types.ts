@@ -42,6 +42,8 @@ export interface GithubUser {
     location: string;
     email: string;
     bio: string;
+    followers: number;
+    following: number;
 }
 
 export interface GithubItem {

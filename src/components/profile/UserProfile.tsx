@@ -1,23 +1,23 @@
-import { Card, Row, Col } from "antd";
-import { useEffect } from "react";
-import { GithubUser } from "../../types";
+import { Card, Row, Col, Avatar } from "antd";
+import { useEffect, useState } from "react";
+import { GithubUser, Nullable } from "../../types";
 import { invoke } from "@tauri-apps/api/tauri";
-import { useAppContext } from "../context/AppContext";
 
 const UserProfile = () => {
-  const {user, setUser} = useAppContext();
+  const [user, setUser] = useState<Nullable<GithubUser>>(null);
 
   useEffect(() => {
     const getUserProfile = async(username: string) => {
       try {
         const user: GithubUser = await invoke("get_user_profile", {username: username});
+        console.log("The user profile is ", user);
         setUser(user);
       } catch (error) {
         console.log("Error in fetching User Profile ", error);
 
       }
     }
-    getUserProfile();
+    getUserProfile("aditya172926");
   }, [])
 
   return (
@@ -27,34 +27,34 @@ const UserProfile = () => {
       </Row>
 
       <Row>
-        <Col span={6}>User image</Col>
+        <Col span={6}><Avatar size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }} src={user?.avatar_url} /></Col>
         <Col span={18}>
           <Row>
-            <Col span={24}>User Name</Col>
+            <Col span={24}>{user?.login}</Col>
           </Row>
           <Row>
             <Col span={8}>
               <Row>
-                <Col>Role</Col>
+                <Col>Bio</Col>
               </Row>
               <Row>
-                <Col>Role Value</Col>
-              </Row>
-            </Col>
-            <Col span={8}>
-              <Row>
-                <Col>Role</Col>
-              </Row>
-              <Row>
-                <Col>Role Value</Col>
+                <Col>{user?.bio}</Col>
               </Row>
             </Col>
             <Col span={8}>
               <Row>
-                <Col>Role</Col>
+                <Col>Followers</Col>
               </Row>
               <Row>
-                <Col>Role Value</Col>
+                <Col>{user?.followers}</Col>
+              </Row>
+            </Col>
+            <Col span={8}>
+              <Row>
+                <Col>Following</Col>
+              </Row>
+              <Row>
+                <Col>{user?.following}</Col>
               </Row>
             </Col>
           </Row>
