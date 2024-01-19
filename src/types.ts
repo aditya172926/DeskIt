@@ -38,6 +38,7 @@ export interface CodeSnippet {
 
 export interface GithubUser {
     login: string;
+    name: string;
     avatar_url: string;
     location: string;
     email: string;

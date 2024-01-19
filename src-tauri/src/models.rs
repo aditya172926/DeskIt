@@ -39,6 +39,7 @@ pub struct Gist {
 #[derive(Deserialize, Serialize, Debug)]
 pub struct GithubUser {
     login: String,
+    name: Option<String>,
     avatar_url: Option<String>,
     location: Option<String>,
     email: Option<String>,
