@@ -37,8 +37,14 @@ export interface CodeSnippet {
 }
 
 export interface GithubUser {
-    avatar_url: string;
     login: string;
+    name: string;
+    avatar_url: string;
+    location: string;
+    email: string;
+    bio: string;
+    followers: number;
+    following: number;
 }
 
 export interface GithubItem {

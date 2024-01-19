@@ -6,6 +6,7 @@ import PrivateRepositories from "./components/repository/PrivateRepositories";
 import PublicRepositories from "./components/repository/PublicRepositories";
 import AuthContextProvider from "./components/context/AuthContext";
 import PublicUserRepositories from "./components/repository/PublicUserRepositories";
+import UserProfile from "./components/profile/UserProfile";
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
           </AuthContextProvider>
         ),
       },
+      {
+        path: "profile", element: (
+          <UserProfile />
+        )
+      }
     ],
   },
 ];
