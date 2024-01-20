@@ -1,4 +1,4 @@
-import { Card, Row, Col, Avatar } from "antd";
+import { Card, Row, Col, Avatar, Button } from "antd";
 import { useEffect, useState } from "react";
 import { GithubUser, Nullable } from "../../types";
 import { invoke } from "@tauri-apps/api/tauri";
@@ -21,10 +21,18 @@ const UserProfile = () => {
     getUserProfile("aditya172926"); // hardcoded profile value
   }, [])
 
+  const newWindow = async() => {
+    try {
+      const new_window = await invoke("generate_new_window");
+    } catch (error) {
+      console.log("Error", error);
+    }
+  }
+
   return (
     <Card hoverable style={{ marginTop: "10px", boxShadow: "5px" }}>
-
-      {/* <Meta avatar={<Avatar size={{ xs: 24, sm: 32, md: 40, lg: 150, xl: 80, xxl: 100 }} src={user?.avatar_url} />} title={user?.login} description={user?.bio} /> */}
+      {/* <a href="https://github.com/login/device">Github authentication</a> */}
+      <Button type="primary" onClick={() => newWindow()}>Authenticate</Button>
 
       <Row>
         <Col span={4}>

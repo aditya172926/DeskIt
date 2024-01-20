@@ -1,9 +1,10 @@
-use std::process::exit;
-
 use crate::api::{make_get_request, make_post_request};
+use crate::error::TauriError;
 use crate::models::{
     APIResult, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL,
 };
+use std::process::exit;
+use tauri::App;
 
 #[tauri::command]
 pub fn get_public_gists() -> APIResult<Vec<Gist>> {
@@ -16,9 +17,7 @@ pub fn get_public_gists() -> APIResult<Vec<Gist>> {
 pub fn get_public_repositories() -> APIResult<Vec<Repository>> {
     let response = make_get_request(URL::WithBaseUrl(String::from("repositories")), None)?;
     let response: Vec<Repository> = match serde_json::from_str(&response) {
-        Ok(result) => {
-            result
-        },
+        Ok(result) => result,
         Err(error) => {
             println!("Error in API {:?}", &error);
             exit(1);
@@ -29,7 +28,10 @@ pub fn get_public_repositories() -> APIResult<Vec<Repository>> {
 
 #[tauri::command]
 pub fn get_repositories_for_authenticated_user(token: &str) -> APIResult<Vec<Repository>> {
-    let response = make_get_request(URL::WithBaseUrl(String::from("users/repos?type=private")), Some(token))?;
+    let response = make_get_request(
+        URL::WithBaseUrl(String::from("users/repos?type=private")),
+        Some(token),
+    )?;
     println!("Authenticated user repository response {:?}", response);
     let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
@@ -84,4 +86,17 @@ pub fn get_user_profile(username: String) -> APIResult<GithubUser> {
     let response = make_get_request(URL::WithBaseUrl(format!("users/{}", username)), None)?;
     let response: GithubUser = serde_json::from_str(&response).unwrap();
     Ok(response)
+}
+
+#[tauri::command]
+pub async fn generate_new_window(
+    // window_url: String,
+    handle: tauri::AppHandle,
+) {    let _new_window = tauri::WindowBuilder::new(
+        &handle,
+        "external", /* the unique window label */
+        tauri::WindowUrl::External("https://github.com/login/device".parse().unwrap()),
+    ).title("Auth")
+    .build()
+    .unwrap();
 }
