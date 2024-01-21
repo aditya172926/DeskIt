@@ -119,9 +119,21 @@ pub fn call_api_method(
     query: Option<HashMap<String, String>>,
     data: Option<serde_json::Value>,
 ) -> APIResult<serde_json::Value> {
+    let endpoint: String = match query {
+        Some(object) => {
+            let mut query_params: String = String::new();
+            for (key, value) in object.into_iter() {
+                query_params = format!("{}{}={}&", query_params, key, value);
+            }
+            println!("The query params are {}", query_params);
+            let url = format!("{}?{}", url, query_params);
+            url
+        },
+        None => url
+    };
+
     if method == "POST".to_string() {
-        println!("The obtained data is {:?}, {:?}", data, url);
-        let response: serde_json::Value = match make_post_request(URL::WithoutBaseUrl(url), token, data) {
+        let response: serde_json::Value = match make_post_request(URL::WithoutBaseUrl(endpoint), token, data) {
             Ok(result) => {
                 println!("The Result is {:?}", result);
                 serde_json::to_value(result).unwrap()},
@@ -132,7 +144,7 @@ pub fn call_api_method(
         };
         Ok(response)
     } else {
-        let response: serde_json::Value = match make_get_request(URL::WithoutBaseUrl(url), token) {
+        let response: serde_json::Value = match make_get_request(URL::WithoutBaseUrl(endpoint), token) {
             Ok(result) => serde_json::from_str(&result).unwrap(),
             Err(error) => {
                 println!("Error in GET request {:?}", error);
