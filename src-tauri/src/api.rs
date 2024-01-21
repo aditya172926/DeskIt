@@ -39,7 +39,7 @@ pub fn make_post_request<T: Serialize>(
     let client = reqwest::blocking::Client::new();
     let response = client
         .post(url)
-        .json(&data.unwrap())
+        .json(&data)
         .headers(construct_headers(token))
         .send()?;
     let response_body = response.text()?;

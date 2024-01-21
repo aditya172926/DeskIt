@@ -82,3 +82,11 @@ export interface Repository extends GithubItem {
     commits_url: string;
     contributors_url: string;
 }
+
+export interface GithubAuthCode {
+    device_code: string;
+    user_code: string;
+    verification_uri: string;
+    expires_in: number;
+    interval: number;
+}
