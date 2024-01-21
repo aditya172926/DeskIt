@@ -90,13 +90,15 @@ pub fn get_user_profile(username: String) -> APIResult<GithubUser> {
 
 #[tauri::command]
 pub async fn generate_new_window(
-    // window_url: String,
     handle: tauri::AppHandle,
+    url: String,
+    label: String,
+    title: String
 ) {    let _new_window = tauri::WindowBuilder::new(
         &handle,
-        "external", /* the unique window label */
-        tauri::WindowUrl::External("https://github.com/login/device".parse().unwrap()),
-    ).title("Auth")
+        label, /* the unique window label */
+        tauri::WindowUrl::External(url.parse().unwrap()),
+    ).title(title)
     .build()
     .unwrap();
 }

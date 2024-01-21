@@ -23,7 +23,11 @@ const UserProfile = () => {
 
   const newWindow = async() => {
     try {
-      const new_window = await invoke("generate_new_window");
+      const new_window = await invoke("generate_new_window", {
+        url: "https://github.com/login/device",
+        label: "Authentication",
+        title: "GitHub Auth"
+      });
     } catch (error) {
       console.log("Error", error);
     }
