@@ -34,7 +34,7 @@ const routes = [
       },
       {
         path: "repositories/my_public_repos",
-        element: <PublicUserRepositories />
+        element: <PublicUserRepositories />,
       },
       {
         path: "gists/private",
@@ -45,10 +45,13 @@ const routes = [
         ),
       },
       {
-        path: "profile", element: (
-          <UserProfile />
-        )
-      }
+        path: "profile",
+        element: (
+          <AuthContextProvider>
+            <UserProfile />
+          </AuthContextProvider>
+        ),
+      },
     ],
   },
 ];

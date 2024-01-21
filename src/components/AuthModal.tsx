@@ -1,5 +1,5 @@
-import { Form, Input, Modal } from "antd";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import { invoke } from "@tauri-apps/api/tauri";
+import { Avatar, Button, Col, Form, Modal, Row, Typography } from "antd";
 
 interface Props {
   shouldShowModal: boolean;
@@ -8,43 +8,39 @@ interface Props {
 }
 
 const AuthModal = ({ shouldShowModal, onSubmit, onCancel }: Props) => {
-  const [form] = Form.useForm();
-
-  const onFormSubmit = () => {
-    form.validateFields().then((values) => {
-      onSubmit(values.token);
-    });
+  const { Title } = Typography;
+  const newWindow = async () => {
+    try {
+      await invoke("generate_new_window", {
+        url: "https://github.com/login/device",
+        label: "Authentication",
+        title: "GitHub Auth",
+      });
+    } catch (error) {
+      console.log("Error", error);
+    }
   };
 
   return (
-    <Modal
-      title="Github Authentication Token"
-      centered
-      okText="Save"
-      cancelText="Cancel"
-      open={shouldShowModal}
-      onOk={onFormSubmit}
-      onCancel={onCancel}
-    >
-      <Form form={form} name="auth_form" initialValues={{ token: "" }}>
-        <Form.Item
-          name="token"
-          label="token"
-          rules={[
-            {
-              required: true,
-              message: "Please provide your github access token",
-            },
-          ]}
-        >
-          <Input.Password
-            placeholder="Github Token"
-            iconRender={(visible) =>
-              visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-            }
-          />
-        </Form.Item>
-      </Form>
+    <Modal centered footer={null} open={shouldShowModal} onCancel={onCancel}>
+      <Row>
+        <Col>
+          <Title level={4}>Authenticate using Github</Title>
+        </Col>
+      </Row>
+      <Row style={{margin: "5%"}}>
+        <Col>
+          <Avatar shape="square" size={50} src="../../app-icon.png" /> -------{" "}
+          <Avatar shape="square" size={50} src="../../github-mark.png" />
+        </Col>
+      </Row>
+      <Row justify="center" style={{margin: "5%"}}>
+        <Col span={24}>
+          <Button onClick={() => newWindow()} block={true}>
+            Sign In with GitHub
+          </Button>
+        </Col>
+      </Row>
     </Modal>
   );
 };

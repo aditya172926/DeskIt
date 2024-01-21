@@ -3,17 +3,15 @@ import { useEffect, useState } from "react";
 import { GithubUser, Nullable } from "../../types";
 import { invoke } from "@tauri-apps/api/tauri";
 
-const  {Meta} = Card;
-
 const UserProfile = () => {
   const [user, setUser] = useState<Nullable<GithubUser>>(null);
 
   useEffect(() => {
     const getUserProfile = async(username: string) => {
       try {
-        const user: GithubUser = await invoke("get_user_profile", {username: username});
-        console.log("The user profile is ", user);
-        setUser(user);
+        // const user: GithubUser = await invoke("get_user_profile", {username: username});
+        // console.log("The user profile is ", user);
+        // setUser(user);
       } catch (error) {
         console.log("Error in fetching User Profile ", error);
       }
@@ -21,22 +19,11 @@ const UserProfile = () => {
     getUserProfile("aditya172926"); // hardcoded profile value
   }, [])
 
-  const newWindow = async() => {
-    try {
-      const new_window = await invoke("generate_new_window", {
-        url: "https://github.com/login/device",
-        label: "Authentication",
-        title: "GitHub Auth"
-      });
-    } catch (error) {
-      console.log("Error", error);
-    }
-  }
+ 
 
   return (
     <Card hoverable style={{ marginTop: "10px", boxShadow: "5px" }}>
       {/* <a href="https://github.com/login/device">Github authentication</a> */}
-      <Button type="primary" onClick={() => newWindow()}>Authenticate</Button>
 
       <Row>
         <Col span={4}>

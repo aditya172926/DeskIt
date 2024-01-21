@@ -1,8 +1,8 @@
 import { Button, Result } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import AuthModal from "../AuthModal";
 import { useNavigate } from "react-router-dom";
 import { GithubUser, Nullable } from "../../types";
+import AuthModal from "../AuthModal";
 
 type AuthContextType = {
   token: Nullable<string>;
