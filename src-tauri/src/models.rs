@@ -4,6 +4,8 @@ use std::collections::HashMap;
 
 pub type APIResult<T, E = TauriError> = Result<T, E>;
 
+pub type GenericParam<T> = Option<T>;
+
 #[derive(Deserialize, Serialize)]
 pub struct Commit {
     commit: Option<CommitNode>,
@@ -95,4 +97,9 @@ impl URL {
             URL::WithoutBaseUrl(url) => url,
         }
     }
+}
+
+pub enum ApiMethod {
+    POST, 
+    GET
 }

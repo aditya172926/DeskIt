@@ -33,13 +33,13 @@ pub fn make_get_request(url: URL, token: Option<&str>) -> APIResult<String> {
 pub fn make_post_request<T: Serialize>(
     url: URL,
     token: Option<&str>,
-    data: T,
+    data: Option<T>,
 ) -> APIResult<String> {
     let url = url.value();
     let client = reqwest::blocking::Client::new();
     let response = client
         .post(url)
-        .json(&data)
+        .json(&data.unwrap())
         .headers(construct_headers(token))
         .send()?;
     let response_body = response.text()?;

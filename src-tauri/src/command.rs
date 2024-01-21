@@ -1,8 +1,10 @@
 use crate::api::{make_get_request, make_post_request};
 use crate::error::TauriError;
 use crate::models::{
-    APIResult, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL,
+    APIResult, ApiMethod, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL,
 };
+use serde::{Serialize, Deserialize};
+use std::collections::HashMap;
 use std::process::exit;
 use tauri::App;
 
@@ -69,7 +71,11 @@ pub fn get_commits_to_repository(url: String, token: Option<&str>) -> APIResult<
 
 #[tauri::command]
 pub fn create_new_gist(gist: GistInput, token: &str) -> APIResult<NewGistResponse> {
-    let response = make_post_request(URL::WithBaseUrl(String::from("gists")), Some(token), gist)?;
+    let response = make_post_request(
+        URL::WithBaseUrl(String::from("gists")),
+        Some(token),
+        Some(gist),
+    )?;
     let response: NewGistResponse = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
@@ -93,12 +99,46 @@ pub async fn generate_new_window(
     handle: tauri::AppHandle,
     url: String,
     label: String,
-    title: String
-) {    let _new_window = tauri::WindowBuilder::new(
+    title: String,
+) {
+    let _new_window = tauri::WindowBuilder::new(
         &handle,
         label, /* the unique window label */
         tauri::WindowUrl::External(url.parse().unwrap()),
-    ).title(title)
+    )
+    .title(title)
     .build()
     .unwrap();
+}
+
+#[tauri::command]
+pub fn call_api_method(
+    method: String,
+    url: String,
+    token: Option<&str>,
+    query: Option<HashMap<String, String>>,
+    data: Option<serde_json::Value>,
+) -> APIResult<serde_json::Value> {
+    if method == "POST".to_string() {
+        println!("The obtained data is {:?}, {:?}", data, url);
+        let response: serde_json::Value = match make_post_request(URL::WithoutBaseUrl(url), token, data) {
+            Ok(result) => {
+                println!("The Result is {:?}", result);
+                serde_json::to_value(result).unwrap()},
+            Err(error) => {
+                println!("Error in POST request {:?}", error);
+                serde_json::Value::default()
+            }
+        };
+        Ok(response)
+    } else {
+        let response: serde_json::Value = match make_get_request(URL::WithoutBaseUrl(url), token) {
+            Ok(result) => serde_json::from_str(&result).unwrap(),
+            Err(error) => {
+                println!("Error in GET request {:?}", error);
+                serde_json::Value::default()
+            }
+        };
+        Ok(response)
+    }
 }
