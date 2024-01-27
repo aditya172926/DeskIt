@@ -14,16 +14,17 @@ const AuthModal = ({ shouldShowModal, onSubmit, onCancel }: Props) => {
   const [authCode, setAuthCode] = useState<Nullable<GithubAuthCode>>(null);
 
   const pollAuthApi = async (device_code: string) => {
-    const response: any = await invoke("call_api_method", {
+    let response: any = await invoke("call_api_method", {
       method: "POST",
       url: "https://github.com/login/oauth/access_token",
       query: {
-        client_id: "",
+        client_id: "Iv1.6175b5bf7da0d177",
         device_code: device_code,
         grant_type: "urn:ietf:params:oauth:grant-type:device_code",
       },
     });
-    console.log("Polling response ", JSON.parse(response));
+    response = JSON.parse(response);
+    return response;
   };
 
   const newWindow = async () => {
@@ -31,7 +32,7 @@ const AuthModal = ({ shouldShowModal, onSubmit, onCancel }: Props) => {
       const response: any = await invoke("call_api_method", {
         method: "POST",
         url: "https://github.com/login/device/code",
-        query: { client_id: "" },
+        query: { client_id: "Iv1.6175b5bf7da0d177" },
       });
 
       const json_response = JSON.parse(response);
@@ -41,8 +42,19 @@ const AuthModal = ({ shouldShowModal, onSubmit, onCancel }: Props) => {
         label: "Authentication",
         title: "GitHub Auth",
       });
-      const pollResponse = setInterval(function () {
-        pollAuthApi(json_response.device_code);
+
+      const pollResponse = setInterval(async function () {
+        const response = await pollAuthApi(json_response.device_code);
+        if (
+          response?.error == "expired_token" ||
+          response?.error == "access_denied"
+        ) {
+          clearInterval(pollResponse);
+        }
+        if (response?.access_token) {
+          console.log("Response ", response);
+          clearInterval(pollResponse);
+        }
       }, 6000);
     } catch (error) {
       console.log("Error", error);
