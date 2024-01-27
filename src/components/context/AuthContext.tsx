@@ -1,23 +1,26 @@
 import { Button, Result } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GithubUser, Nullable } from "../../types";
+import useAuth from "../../hooks/useAuth";
+import { GithubAccessTokens, Nullable } from "../../types";
 import AuthModal from "../AuthModal";
 
 type AuthContextType = {
   token: Nullable<string>;
+  setShouldShowModal: (param: boolean) => void;
 };
 
-const AuthContext = createContext<AuthContextType>({ token: null });
+const AuthContext = createContext<AuthContextType>({ token: null, setShouldShowModal: (param) => {} });
 
 interface Props {
   children: React.ReactNode;
 }
 
 const AuthContextProvider = ({ children }: Props) => {
+  const authHook = useAuth();
   const [token, setToken] = useState<Nullable<string>>(null);
-  const [shouldShowModal, setShouldShowModal] = useState<boolean>(true);
-  const [userProfile, setUserProfile] = useState<Nullable<GithubUser>>(null);
+  const [shouldShowModal, setShouldShowModal] = useState<boolean>(false);
+  // const [userProfile, setUserProfile] = useState<Nullable<GithubUser>>(null);
 
   const navigate = useNavigate();
 
@@ -32,36 +35,43 @@ const AuthContextProvider = ({ children }: Props) => {
     return () => clearTimeout(timer);
   }, [token]);
 
-  const onSubmit = (token: string) => {
-    setToken(token);
-    setShouldShowModal(false);
+  const onSubmit = async() => {
+    try {
+      const token: Nullable<GithubAccessTokens> = await authHook.authenticate_with_github();
+      if (token)
+        setToken(token.access_token);
+      setShouldShowModal(false);
+    } catch (error) {
+      console.log("Error in Authentication with Github ", error);
+    }
   };
 
   const onCancel = () => {
     setShouldShowModal(false);
+    navigate("/");
   };
 
-  if (!shouldShowModal && !token) {
-    return (
-      <Result
-        status="error"
-        title="Authentication failed"
-        subTitle="A github personal access token is required"
-        extra={[
-          <Button type="link" key="home" onClick={() => navigate("/")}>
-            Public Section
-          </Button>,
-          <Button
-            key="retry"
-            type="primary"
-            onClick={() => setShouldShowModal(true)}
-          >
-            Try again
-          </Button>,
-        ]}
-      />
-    );
-  }
+  // if (!shouldShowModal && !token) {
+  //   return (
+  //     <Result
+  //       status="error"
+  //       title="Authentication failed"
+  //       subTitle="A github personal access token is required"
+  //       extra={[
+  //         <Button type="link" key="home" onClick={() => navigate("/")}>
+  //           Public Section
+  //         </Button>,
+  //         <Button
+  //           key="retry"
+  //           type="primary"
+  //           onClick={() => setShouldShowModal(true)}
+  //         >
+  //           Try again
+  //         </Button>,
+  //       ]}
+  //     />
+  //   );
+  // }
 
   return (
     <>
@@ -69,10 +79,12 @@ const AuthContextProvider = ({ children }: Props) => {
         <AuthModal
           shouldShowModal={shouldShowModal}
           onSubmit={onSubmit}
+          authCode={authHook.authCode}
           onCancel={onCancel}
         />
       )}
-      <AuthContext.Provider value={{ token }}>{children}</AuthContext.Provider>
+
+      <AuthContext.Provider value={{ token, setShouldShowModal }}>{children}</AuthContext.Provider>
     </>
   );
 };

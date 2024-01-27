@@ -1,14 +1,16 @@
-import { Card, Row, Col, Avatar, Button } from "antd";
+import { Avatar, Card, Col, Row } from "antd";
 import { useEffect, useState } from "react";
 import { GithubUser, Nullable } from "../../types";
-import { invoke } from "@tauri-apps/api/tauri";
+import { useAuthContext } from "../context/AuthContext";
 
 const UserProfile = () => {
   const [user, setUser] = useState<Nullable<GithubUser>>(null);
+  const {token} = useAuthContext();
 
   useEffect(() => {
     const getUserProfile = async(username: string) => {
       try {
+        console.log("Auth token ", token);
         // const user: GithubUser = await invoke("get_user_profile", {username: username});
         // console.log("The user profile is ", user);
         // setUser(user);
@@ -23,7 +25,6 @@ const UserProfile = () => {
 
   return (
     <Card hoverable style={{ marginTop: "10px", boxShadow: "5px" }}>
-      {/* <a href="https://github.com/login/device">Github authentication</a> */}
 
       <Row>
         <Col span={4}>

@@ -7,11 +7,16 @@ import PublicRepositories from "./components/repository/PublicRepositories";
 import AuthContextProvider from "./components/context/AuthContext";
 import PublicUserRepositories from "./components/repository/PublicUserRepositories";
 import UserProfile from "./components/profile/UserProfile";
+import RequireAuth from "./components/context/RequireAuth";
 
 const routes = [
   {
     path: "/",
-    element: <App />,
+    element: 
+    <AuthContextProvider>
+      <App />
+    </AuthContextProvider>
+    ,
     children: [
       { index: true, element: <PublicRepositories /> },
       { path: "repositories/public", element: <PublicRepositories /> },
@@ -19,17 +24,17 @@ const routes = [
       {
         path: "gists/new",
         element: (
-          <AuthContextProvider>
+          <RequireAuth>
             <CreateGist />
-          </AuthContextProvider>
+          </RequireAuth>
         ),
       },
       {
         path: "repositories/private",
         element: (
-          <AuthContextProvider>
+          <RequireAuth>
             <PrivateRepositories />
-          </AuthContextProvider>
+          </RequireAuth>
         ),
       },
       {
@@ -39,17 +44,17 @@ const routes = [
       {
         path: "gists/private",
         element: (
-          <AuthContextProvider>
+          <RequireAuth>
             <PrivateGists />
-          </AuthContextProvider>
+          </RequireAuth>
         ),
       },
       {
         path: "profile",
         element: (
-          <AuthContextProvider>
+          <RequireAuth>
             <UserProfile />
-          </AuthContextProvider>
+          </RequireAuth>
         ),
       },
     ],

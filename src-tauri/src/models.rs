@@ -99,7 +99,11 @@ impl URL {
     }
 }
 
-pub enum ApiMethod {
-    POST, 
-    GET
+pub struct AuthState {
+    pub access_token: String,
+    pub expires_in: u64,
+    pub refresh_token: String,
+    pub refresh_token_expires_in: u64,
+    pub scope: String,
+    pub token_type: String
 }

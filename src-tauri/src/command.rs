@@ -1,7 +1,7 @@
 use crate::api::{make_get_request, make_post_request};
 use crate::error::TauriError;
 use crate::models::{
-    APIResult, ApiMethod, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL,
+    APIResult, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL,
 };
 use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
