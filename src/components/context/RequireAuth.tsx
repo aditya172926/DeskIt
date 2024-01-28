@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { useAuthContext } from "./AuthContext";
 
 const RequireAuth = ({children}: any) => {

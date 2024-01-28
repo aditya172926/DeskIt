@@ -4,7 +4,7 @@ import { GithubAccessTokens, GithubAuthCode, Nullable } from "../types";
 
 const useAuth = () => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
-  const [authCode, setAuthCode] = useState<Nullable<GithubAuthCode>>(null);
+  // const [authCode, setAuthCode] = useState<Nullable<GithubAuthCode>>(null);
 
   const pollAuthApi = async (device_code: string) => {
     let response: any = await invoke("call_api_method", {
@@ -32,7 +32,7 @@ const useAuth = () => {
       });
 
       const json_response = JSON.parse(response);
-      setAuthCode(json_response);
+      // setAuthCode(json_response);
       await invoke("generate_new_window", {
         url: "https://github.com/login/device",
         label: "Authentication",
@@ -46,14 +46,15 @@ const useAuth = () => {
           response?.error == "access_denied"
         ) {
           clearInterval(pollResponse);
+          return null;
         }
         if (response?.access_token) {
-          clearInterval(pollResponse);
           console.log("Response ", response); // successful authentication
+          clearInterval(pollResponse);
           tokens = response;
         }
       }, 6000);
-      return tokens;
+      return tokens
     } catch (error) {
       console.log("Error", error);
       return null;
@@ -61,9 +62,8 @@ const useAuth = () => {
   };
 
   return {
-    authenticate_with_github,
-    authCode,
-  };
+    authenticate_with_github
+    };
 };
 
 export default useAuth;

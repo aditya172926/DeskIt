@@ -1,8 +1,6 @@
-import { Button, Result } from "antd";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import { GithubAccessTokens, Nullable } from "../../types";
+import { Nullable } from "../../types";
 import AuthModal from "../AuthModal";
 
 type AuthContextType = {
@@ -10,14 +8,16 @@ type AuthContextType = {
   setShouldShowModal: (param: boolean) => void;
 };
 
-const AuthContext = createContext<AuthContextType>({ token: null, setShouldShowModal: (param) => {} });
+const AuthContext = createContext<AuthContextType>({
+  token: null,
+  setShouldShowModal: (param: boolean) => {},
+});
 
 interface Props {
   children: React.ReactNode;
 }
 
 const AuthContextProvider = ({ children }: Props) => {
-  const authHook = useAuth();
   const [token, setToken] = useState<Nullable<string>>(null);
   const [shouldShowModal, setShouldShowModal] = useState<boolean>(false);
   // const [userProfile, setUserProfile] = useState<Nullable<GithubUser>>(null);
@@ -25,6 +25,7 @@ const AuthContextProvider = ({ children }: Props) => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Token in auth context ", token);
     const timer = setTimeout(() => {
       if (token) {
         setToken(null);
@@ -35,15 +36,9 @@ const AuthContextProvider = ({ children }: Props) => {
     return () => clearTimeout(timer);
   }, [token]);
 
-  const onSubmit = async() => {
-    try {
-      const token: Nullable<GithubAccessTokens> = await authHook.authenticate_with_github();
-      if (token)
-        setToken(token.access_token);
+  const setAccessToken = async (access_token: string) => {
+      setToken(access_token);
       setShouldShowModal(false);
-    } catch (error) {
-      console.log("Error in Authentication with Github ", error);
-    }
   };
 
   const onCancel = () => {
@@ -78,13 +73,14 @@ const AuthContextProvider = ({ children }: Props) => {
       {shouldShowModal && (
         <AuthModal
           shouldShowModal={shouldShowModal}
-          onSubmit={onSubmit}
-          authCode={authHook.authCode}
+          setToken={setAccessToken}
           onCancel={onCancel}
         />
       )}
 
-      <AuthContext.Provider value={{ token, setShouldShowModal }}>{children}</AuthContext.Provider>
+      <AuthContext.Provider value={{ token, setShouldShowModal }}>
+        {children}
+      </AuthContext.Provider>
     </>
   );
 };
