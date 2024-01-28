@@ -1,30 +1,33 @@
-import { Card, Row, Col, Avatar } from "antd";
-import { useEffect, useState } from "react";
-import { GithubUser, Nullable } from "../../types";
 import { invoke } from "@tauri-apps/api/tauri";
-
-const  {Meta} = Card;
+import { Avatar, Card, Col, Row } from "antd";
+import { useMemo, useState } from "react";
+import { GithubUser, Nullable } from "../../types";
+import { useAuthContext } from "../context/AuthContext";
 
 const UserProfile = () => {
   const [user, setUser] = useState<Nullable<GithubUser>>(null);
+  const {token} = useAuthContext();
 
-  useEffect(() => {
-    const getUserProfile = async(username: string) => {
-      try {
-        const user: GithubUser = await invoke("get_user_profile", {username: username});
-        console.log("The user profile is ", user);
-        setUser(user);
-      } catch (error) {
-        console.log("Error in fetching User Profile ", error);
+  useMemo(() => {
+    if (token) {
+      const getUserProfile = async(username: string) => {
+        try {
+          console.log("Auth token ", token);
+          const user: GithubUser = await invoke("get_user_profile", {username: username});
+          console.log("The user profile is ", user);
+          setUser(user);
+        } catch (error) {
+          console.log("Error in fetching User Profile ", error);
+        }
       }
+      getUserProfile("aditya172926"); // hardcoded profile value
     }
-    getUserProfile("aditya172926"); // hardcoded profile value
-  }, [])
+  }, [token])
+
+ 
 
   return (
     <Card hoverable style={{ marginTop: "10px", boxShadow: "5px" }}>
-
-      {/* <Meta avatar={<Avatar size={{ xs: 24, sm: 32, md: 40, lg: 150, xl: 80, xxl: 100 }} src={user?.avatar_url} />} title={user?.login} description={user?.bio} /> */}
 
       <Row>
         <Col span={4}>

@@ -4,6 +4,8 @@ use std::collections::HashMap;
 
 pub type APIResult<T, E = TauriError> = Result<T, E>;
 
+pub type GenericParam<T> = Option<T>;
+
 #[derive(Deserialize, Serialize)]
 pub struct Commit {
     commit: Option<CommitNode>,
@@ -95,4 +97,13 @@ impl URL {
             URL::WithoutBaseUrl(url) => url,
         }
     }
+}
+
+pub struct AuthState {
+    pub access_token: String,
+    pub expires_in: u64,
+    pub refresh_token: String,
+    pub refresh_token_expires_in: u64,
+    pub scope: String,
+    pub token_type: String
 }
