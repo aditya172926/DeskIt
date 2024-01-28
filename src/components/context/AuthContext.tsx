@@ -10,7 +10,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>({
   token: null,
-  setShouldShowModal: (param: boolean) => {},
+  setShouldShowModal: () => {}
 });
 
 interface Props {

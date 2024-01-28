@@ -1,7 +1,5 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { Repository } from "../types";
-import { message } from "antd";
-import { getErrorMessage } from "../helper";
 
 export const getRepositories = async () => {
   try {

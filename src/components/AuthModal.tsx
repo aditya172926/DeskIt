@@ -1,8 +1,8 @@
 import { invoke } from "@tauri-apps/api/tauri";
 import { Avatar, Button, Col, Modal, Row, Typography } from "antd";
 import { useState } from "react";
-import { GithubAccessTokens, GithubAuthCode, Nullable } from "../types";
 import { pollAuthApi } from "../services/commands";
+import { GithubAuthCode, Nullable } from "../types";
 
 interface Props {
   shouldShowModal: boolean;
