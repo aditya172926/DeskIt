@@ -1,5 +1,6 @@
+import { invoke } from "@tauri-apps/api/tauri";
 import { Avatar, Card, Col, Row } from "antd";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { GithubUser, Nullable } from "../../types";
 import { useAuthContext } from "../context/AuthContext";
 
@@ -7,19 +8,21 @@ const UserProfile = () => {
   const [user, setUser] = useState<Nullable<GithubUser>>(null);
   const {token} = useAuthContext();
 
-  useEffect(() => {
-    const getUserProfile = async(username: string) => {
-      try {
-        console.log("Auth token ", token);
-        // const user: GithubUser = await invoke("get_user_profile", {username: username});
-        // console.log("The user profile is ", user);
-        // setUser(user);
-      } catch (error) {
-        console.log("Error in fetching User Profile ", error);
+  useMemo(() => {
+    if (token) {
+      const getUserProfile = async(username: string) => {
+        try {
+          console.log("Auth token ", token);
+          const user: GithubUser = await invoke("get_user_profile", {username: username});
+          console.log("The user profile is ", user);
+          setUser(user);
+        } catch (error) {
+          console.log("Error in fetching User Profile ", error);
+        }
       }
+      getUserProfile("aditya172926"); // hardcoded profile value
     }
-    getUserProfile("aditya172926"); // hardcoded profile value
-  }, [])
+  }, [token])
 
  
 
