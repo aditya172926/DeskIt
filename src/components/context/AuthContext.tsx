@@ -1,16 +1,20 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Nullable } from "../../types";
+import { GithubUser, Nullable } from "../../types";
 import AuthModal from "../AuthModal";
 
 type AuthContextType = {
   token: Nullable<string>;
   setShouldShowModal: (param: boolean) => void;
+  user: Nullable<GithubUser>;
+  setUserProfile: (param: GithubUser) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
   token: null,
-  setShouldShowModal: () => {}
+  setShouldShowModal: () => {},
+  user: null,
+  setUserProfile: () => {}
 });
 
 interface Props {
@@ -20,7 +24,7 @@ interface Props {
 const AuthContextProvider = ({ children }: Props) => {
   const [token, setToken] = useState<Nullable<string>>(null);
   const [shouldShowModal, setShouldShowModal] = useState<boolean>(false);
-  // const [userProfile, setUserProfile] = useState<Nullable<GithubUser>>(null);
+  const [user, setUserProfile] = useState<Nullable<GithubUser>>(null);
 
   const navigate = useNavigate();
 
@@ -78,7 +82,7 @@ const AuthContextProvider = ({ children }: Props) => {
         />
       )}
 
-      <AuthContext.Provider value={{ token, setShouldShowModal }}>
+      <AuthContext.Provider value={{ token, setShouldShowModal, user, setUserProfile }}>
         {children}
       </AuthContext.Provider>
     </>

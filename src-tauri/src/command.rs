@@ -1,12 +1,12 @@
 use crate::api::{make_get_request, make_post_request};
 use crate::error::TauriError;
 use crate::models::{
-    APIResult, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL,
+    APIResult, AuthState, AuthTokens, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL
 };
 use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
 use std::process::exit;
-use tauri::App;
+use tauri::{App, State};
 
 #[tauri::command]
 pub fn get_public_gists() -> APIResult<Vec<Gist>> {
@@ -17,12 +17,18 @@ pub fn get_public_gists() -> APIResult<Vec<Gist>> {
 
 #[tauri::command]
 pub fn get_public_repositories() -> APIResult<Vec<Repository>> {
-    let response = make_get_request(URL::WithBaseUrl(String::from("repositories")), None)?;
+    let response = match make_get_request(URL::WithBaseUrl(String::from("repositories")), None) {
+        Ok(repositories) => repositories,
+        Err(error) => {
+            println!("Error in get_public_repositories API {:?}", &error);
+            String::new()
+        }
+    };
     let response: Vec<Repository> = match serde_json::from_str(&response) {
         Ok(result) => result,
         Err(error) => {
-            println!("Error in API {:?}", &error);
-            exit(1);
+            println!("Error in serializing Public repositories {:?}", &error);
+            vec![]
         }
     };
     Ok(response)
@@ -153,4 +159,10 @@ pub fn call_api_method(
         };
         Ok(response)
     }
+}
+
+#[tauri::command]
+pub fn set_auth_state(authTokens: AuthTokens, authState: State<AuthState>) -> bool {
+    let mut state = authState.tokens.lock().unwrap().insert("authTokens".to_string(), authTokens);
+    true
 }
