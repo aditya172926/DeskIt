@@ -8,7 +8,6 @@ const { Content, Sider } = Layout;
 const { Text, Paragraph } = Typography;
 
 const UserProfile = () => {
-  // const [user, setUser] = useState<Nullable<GithubUser>>(null);
   const { token, user, setUserProfile } = useAuthContext();
 
   useMemo(() => {
@@ -26,8 +25,8 @@ const UserProfile = () => {
           console.log("Error in fetching User Profile ", error);
         }
       }
-      getUserProfile("aditya172926"); // hardcoded profile value
     };
+    getUserProfile("aditya172926"); // hardcoded profile value
   }, [token]);
 
   return (
@@ -89,75 +88,40 @@ const UserProfile = () => {
             </Col>
           </Row>
 
-          <Button type="default" block>
+          <Button style={{marginTop: "10px"}} type="default" block>
             Follow
           </Button>
+
+          <Row style={{marginTop: "10px"}}>
+            <Col span={12}>
+              <Row>
+                <Col>{user?.location}</Col>
+              </Row>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col span={12}>
+              <Row>
+                <Col>{user?.email}</Col>
+              </Row>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col span={12}>
+              <Row>
+                <Col>{user?.twitter_username}</Col>
+              </Row>
+            </Col>
+          </Row>
+
         </Sider>
 
         <Content style={{ padding: "0 24px", overflow: "initial" }}>
           Content
         </Content>
       </Layout>
-      {/* <Row style={{height: "100%"}}>
-        <Col span={6} style={{margin: "1%", borderRight: "10px solid gray", height: "100%"}}>
-          <Avatar
-            size={{ xs: 24, sm: 32, md: 40, lg: 150, xl: 80, xxl: 100 }}
-            src={user?.avatar_url}
-          />
-        </Col>
-        <Col style={{height: "100%"}}>
-          1Content
-          1Content
-          1Content
-          1Content
-          1Content
-
-        </Col>
-      </Row> */}
-
-      {/* <Card hoverable style={{ marginTop: "10px", boxShadow: "5px" }}>
-        <Row>
-          <Col span={4}>
-            <Avatar
-              size={{ xs: 24, sm: 32, md: 40, lg: 150, xl: 80, xxl: 100 }}
-              src={user?.avatar_url}
-            />
-          </Col>
-          <Col span={20}>
-            <Row>
-              <Col span={24}>
-                <h2>
-                  <b>{user?.name}</b>
-                </h2>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <b>{user?.login}</b>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <Row>
-                  <Col>{user?.bio}</Col>
-                </Row>
-              </Col>
-            </Row>
-            <Row>
-              <Col span={8}>
-                <Row>
-                  <Col>Followers - {user?.followers}</Col>
-                </Row>
-              </Col>
-              <Col span={8}>
-                <Row>
-                  <Col>Following - {user?.following}</Col>
-                </Row>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Card> */}
     </>
   );
 };

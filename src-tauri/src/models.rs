@@ -45,9 +45,12 @@ pub struct GithubUser {
     avatar_url: Option<String>,
     location: Option<String>,
     email: Option<String>,
+    twitter_username: Option<String>,
     bio: Option<String>,
     followers: Option<u32>,
-    following: Option<u32>
+    following: Option<u32>,
+    pubilc_repos: Option<u32>,
+    public_gists: Option<u32>
 }
 
 #[derive(Deserialize, Serialize)]

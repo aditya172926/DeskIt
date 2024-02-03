@@ -166,3 +166,6 @@ pub fn set_auth_state(authTokens: AuthTokens, authState: State<AuthState>) -> bo
     let mut state = authState.tokens.lock().unwrap().insert("authTokens".to_string(), authTokens);
     true
 }
+
+// #[tauri::command]
+// pub fn get_repo_readme(owner: String, repo_name: String) -> APIResult<>
