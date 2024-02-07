@@ -81,6 +81,7 @@ pub fn create_new_gist(gist: GistInput, token: &str) -> APIResult<NewGistRespons
         URL::WithBaseUrl(String::from("gists")),
         Some(token),
         Some(gist),
+        None
     )?;
     let response: NewGistResponse = serde_json::from_str(&response).unwrap();
     Ok(response)
@@ -124,6 +125,7 @@ pub fn call_api_method(
     token: Option<&str>,
     query: Option<HashMap<String, String>>,
     data: Option<serde_json::Value>,
+    headers: Option<HashMap<String, String>>
 ) -> APIResult<serde_json::Value> {
     let endpoint: String = match query {
         Some(object) => {
@@ -139,7 +141,7 @@ pub fn call_api_method(
     };
 
     if method == "POST".to_string() {
-        let response: serde_json::Value = match make_post_request(URL::WithoutBaseUrl(endpoint), token, data) {
+        let response: serde_json::Value = match make_post_request(URL::WithoutBaseUrl(endpoint), token, data, headers) {
             Ok(result) => {
                 println!("The Result is {:?}", result);
                 serde_json::to_value(result).unwrap()},
@@ -168,4 +170,6 @@ pub fn set_auth_state(authTokens: AuthTokens, authState: State<AuthState>) -> bo
 }
 
 // #[tauri::command]
-// pub fn get_repo_readme(owner: String, repo_name: String) -> APIResult<>
+// pub fn get_repo_readme(owner: String, repo_name: String) -> APIResult<String> {
+    
+// }
