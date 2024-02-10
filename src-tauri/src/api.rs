@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, process::exit};
 
 use crate::models::{APIResult, URL};
 use reqwest::header::{HeaderMap, HeaderValue, HeaderName, ACCEPT, AUTHORIZATION, USER_AGENT};
@@ -7,25 +7,23 @@ use serde::Serialize;
 fn construct_headers(token: Option<&str>, custom_header: Option<HashMap<String, String>>) -> HeaderMap {
     let mut headers = HeaderMap::new();
 
+    let test = "application/vnd.github+json";
     headers.insert(
         ACCEPT,
-        HeaderValue::from_static("application/vnd.github+json"),
+        HeaderValue::from_static(test),
     );
     headers.insert(USER_AGENT, HeaderValue::from_static("Dashhub demo"));
     headers.insert("X-GitHub-Api-Version", HeaderValue::from_static("2022-11-28"));
 
-    let mut headers_map: &'static HashMap<String, String> = match custom_header {
-        Some(headers) => &headers.clone(),
-        None => &HashMap::new()
-    };
-
-        for (header_key, header_value) in &headers_map {
-            // let key = header_key.to_owned();
-            // let value = header_value;
-            headers.insert(HeaderName::from_static(&header_key), HeaderValue::from_static(&header_value));
-        };
-    
-    
+    if let Some(headers_result) = custom_header {
+        for (header_key, header_value) in headers_result {
+            if let Ok(header_name) = HeaderName::from_bytes(header_key.as_bytes()) {
+                headers.insert(header_name, HeaderValue::from_str(&header_value).unwrap());
+            }
+        }
+    } else {
+        println!("No custom headers");
+    }
 
     if let Some(token) = token {
         let token = format!("Bearer {token}");
