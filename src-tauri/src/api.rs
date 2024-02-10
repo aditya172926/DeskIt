@@ -1,44 +1,68 @@
+use reqwest::{
+    blocking::{Client, Response},
+    header::{HeaderMap, HeaderName, HeaderValue, ACCEPT, AUTHORIZATION, USER_AGENT},
+};
+use serde::Serialize;
 use std::collections::HashMap;
 
 use crate::models::{APIResult, URL};
-use reqwest::header::{HeaderMap, HeaderValue, HeaderName, ACCEPT, AUTHORIZATION, USER_AGENT};
-use serde::Serialize;
 
-fn construct_headers(token: Option<&str>, custom_header: Option<HashMap<String, String>>) -> HeaderMap {
+fn construct_headers(
+    token: Option<&str>,
+    custom_headers: Option<HashMap<String, String>>,
+) -> HeaderMap {
     let mut headers = HeaderMap::new();
+    println!("The custom headers are {:?}", custom_headers);
 
-    let test = "application/vnd.github+json";
-    headers.insert(
-        ACCEPT,
-        HeaderValue::from_static(test),
-    );
+    headers.insert(ACCEPT, HeaderValue::from_static("application/vnd.github+json"));
     headers.insert(USER_AGENT, HeaderValue::from_static("Deskhub"));
-    headers.insert("X-GitHub-Api-Version", HeaderValue::from_static("2022-11-28"));
+    headers.insert(
+        "X-GitHub-Api-Version",
+        HeaderValue::from_static("2022-11-28"),
+    );
 
-    if let Some(headers_result) = custom_header {
+    if let Some(headers_result) = custom_headers {
         for (header_key, header_value) in headers_result {
             if let Ok(header_name) = HeaderName::from_bytes(header_key.as_bytes()) {
                 headers.insert(header_name, HeaderValue::from_str(&header_value).unwrap());
             }
         }
+        println!("The request headers are {:?}", headers);
     } else {
+        println!("The custom headers are {:?}", custom_headers);
         println!("No custom headers");
     }
 
     if let Some(token) = token {
-        let token = format!("Bearer {token}");
-        let header_value =
+        let token: String = format!("Bearer {token}");
+        let header_value: HeaderValue =
             HeaderValue::from_str(token.as_str()).expect("Could not generate header from value");
         headers.insert(AUTHORIZATION, header_value);
     }
     headers
 }
 
-pub fn make_get_request(url: URL, token: Option<&str>) -> APIResult<String> {
+pub fn make_get_request(
+    url: URL,
+    token: Option<&str>,
+    headers: Option<HashMap<String, String>>,
+) -> APIResult<String> {
     let url = url.value();
-    let client = reqwest::blocking::Client::new();
-    let response = client.get(url).headers(construct_headers(token, None)).send()?;
-    let response_body = response.text()?;
+    let client: Client = Client::new();
+    let response: Response = client
+        .get(url)
+        .headers(construct_headers(token, headers))
+        .send()?;
+    let response_body: String = match response.text() {
+        Ok(result) => {
+            println!("The get request response is {:?}", result);
+            result
+        },
+        Err(error) => {
+            eprintln!("Error in get request response {:?}", error);
+            String::new()
+        }
+    };
     Ok(response_body)
 }
 
@@ -46,15 +70,15 @@ pub fn make_post_request<T: Serialize>(
     url: URL,
     token: Option<&str>,
     data: Option<T>,
-    headers: Option<HashMap<String, String>>
+    headers: Option<HashMap<String, String>>,
 ) -> APIResult<String> {
-    let url = url.value();
-    let client = reqwest::blocking::Client::new();
-    let response = client
+    let url: String = url.value();
+    let client: Client = Client::new();
+    let response: Response = client
         .post(url)
         .json(&data)
         .headers(construct_headers(token, headers))
         .send()?;
-    let response_body = response.text()?;
+    let response_body: String = response.text()?;
     Ok(response_body)
 }

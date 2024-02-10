@@ -20,6 +20,12 @@ const UserProfile = () => {
             username: username,
           });
           console.log("The user profile is ", user);
+          const readme = await invoke("call_api_method", {
+            method: "GET",
+            url: "https://api.github.com/repos/aditya172926/aditya172926/readme",
+            headers: {Accept: "application/vnd.github.html+json"}
+          });
+          console.log("The readme file for aditya is ", readme);
           setUserProfile(user);
         } catch (error) {
           console.log("Error in fetching User Profile ", error);
