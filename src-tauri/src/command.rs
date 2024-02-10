@@ -19,14 +19,14 @@ pub fn get_public_repositories() -> APIResult<Vec<Repository>> {
     let response = match make_get_request(URL::WithBaseUrl(String::from("repositories")), None, None) {
         Ok(repositories) => repositories,
         Err(error) => {
-            println!("Error in get_public_repositories API {:?}", &error);
+            println!("Error in get_public_repositories API");
             String::new()
         }
     };
     let response: Vec<Repository> = match serde_json::from_str(&response) {
         Ok(result) => result,
         Err(error) => {
-            println!("Error in serializing Public repositories {:?}", &error);
+            println!("Error in serializing Public repositories");
             vec![]
         }
     };
@@ -153,16 +153,7 @@ pub fn call_api_method(
         Ok(response)
     } else {
         let response: serde_json::Value = match make_get_request(URL::WithoutBaseUrl(endpoint), token, headers) {
-            Ok(result) => match serde_json::from_str(&result) {
-                Ok(serde_result) => {
-                    println!("serde_string_result {:?}", serde_result);
-                    serde_result
-                },
-                Err(error) => {
-                    eprintln!("Error in get method of call api request {:?}", error);
-                    exit(1);
-                }
-            },
+            Ok(result) => serde_json::to_value(&result).unwrap(),
             Err(error) => {
                 println!("Error in GET request {:?}", error);
                 serde_json::Value::default()
