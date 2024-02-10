@@ -4,8 +4,6 @@ use std::{collections::HashMap, sync::Mutex};
 
 pub type APIResult<T, E = TauriError> = Result<T, E>;
 
-pub type GenericParam<T> = Option<T>;
-
 #[derive(Deserialize, Serialize)]
 pub struct Commit {
     commit: Option<CommitNode>,

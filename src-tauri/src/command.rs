@@ -1,12 +1,9 @@
 use crate::api::{make_get_request, make_post_request};
-use crate::error::TauriError;
 use crate::models::{
     APIResult, AuthState, AuthTokens, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL
 };
-use serde::{Serialize, Deserialize};
 use std::collections::HashMap;
-use std::process::exit;
-use tauri::{App, State};
+use tauri::State;
 
 #[tauri::command]
 pub fn get_public_gists() -> APIResult<Vec<Gist>> {
@@ -163,11 +160,11 @@ pub fn call_api_method(
     }
 }
 
-#[tauri::command]
-pub fn set_auth_state(authTokens: AuthTokens, authState: State<AuthState>) -> bool {
-    let mut state = authState.tokens.lock().unwrap().insert("authTokens".to_string(), authTokens);
-    true
-}
+// #[tauri::command]
+// pub fn set_auth_state(authTokens: AuthTokens, authState: State<AuthState>) -> bool {
+//     let mut state = authState.tokens.lock().unwrap().insert("authTokens".to_string(), authTokens);
+//     true
+// }
 
 // #[tauri::command]
 // pub fn get_repo_readme(owner: String, repo_name: String) -> APIResult<String> {

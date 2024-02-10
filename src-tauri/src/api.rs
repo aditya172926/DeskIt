@@ -1,4 +1,4 @@
-use std::{collections::HashMap, process::exit};
+use std::collections::HashMap;
 
 use crate::models::{APIResult, URL};
 use reqwest::header::{HeaderMap, HeaderValue, HeaderName, ACCEPT, AUTHORIZATION, USER_AGENT};
@@ -12,7 +12,7 @@ fn construct_headers(token: Option<&str>, custom_header: Option<HashMap<String, 
         ACCEPT,
         HeaderValue::from_static(test),
     );
-    headers.insert(USER_AGENT, HeaderValue::from_static("Dashhub demo"));
+    headers.insert(USER_AGENT, HeaderValue::from_static("Deskhub"));
     headers.insert("X-GitHub-Api-Version", HeaderValue::from_static("2022-11-28"));
 
     if let Some(headers_result) = custom_header {
