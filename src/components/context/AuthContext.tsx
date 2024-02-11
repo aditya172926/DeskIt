@@ -22,7 +22,7 @@ interface Props {
 }
 
 const AuthContextProvider = ({ children }: Props) => {
-  const [token, setToken] = useState<Nullable<string>>(null);
+  const [token, setToken] = useState<Nullable<string>>("asdf");
   const [shouldShowModal, setShouldShowModal] = useState<boolean>(false);
   const [user, setUserProfile] = useState<Nullable<GithubUser>>(null);
 
