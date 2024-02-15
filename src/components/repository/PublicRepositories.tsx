@@ -13,9 +13,10 @@ const PublicRepositories = () => {
   useEffect(() => {
     const getRepositories = async () => {
       try {
-        const repositories: Repository[] = await invoke(
-          "get_public_repositories"
-        );
+        // const repositories: Repository[] = await invoke(
+        //   "get_public_repositories"
+        // );
+        const repositories: Repository[] = [];
         console.log("Public Repositories", repositories);
         setRepositories(repositories);
       } catch (error) {

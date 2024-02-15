@@ -1,10 +1,8 @@
 use crate::error::TauriError;
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::{collections::HashMap, sync::Mutex};
 
 pub type APIResult<T, E = TauriError> = Result<T, E>;
-
-pub type GenericParam<T> = Option<T>;
 
 #[derive(Deserialize, Serialize)]
 pub struct Commit {
@@ -45,9 +43,12 @@ pub struct GithubUser {
     avatar_url: Option<String>,
     location: Option<String>,
     email: Option<String>,
+    twitter_username: Option<String>,
     bio: Option<String>,
     followers: Option<u32>,
-    following: Option<u32>
+    following: Option<u32>,
+    pubilc_repos: Option<u32>,
+    public_gists: Option<u32>
 }
 
 #[derive(Deserialize, Serialize)]
@@ -99,11 +100,17 @@ impl URL {
     }
 }
 
-pub struct AuthState {
-    pub access_token: String,
+#[derive(Deserialize, Serialize, Debug)]
+pub struct AuthTokens {
+    pub access_token: Mutex<String>,
     pub expires_in: u64,
     pub refresh_token: String,
     pub refresh_token_expires_in: u64,
     pub scope: String,
     pub token_type: String
+}
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct AuthState {
+    pub tokens: Mutex<HashMap<String, AuthTokens>>
 }

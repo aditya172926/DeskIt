@@ -42,9 +42,12 @@ export interface GithubUser {
     avatar_url: string;
     location: string;
     email: string;
+    twitter_username: string;
     bio: string;
     followers: number;
     following: number;
+    public_repos: number;
+    public_gists: number;
 }
 
 export interface GithubItem {

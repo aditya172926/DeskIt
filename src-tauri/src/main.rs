@@ -16,7 +16,10 @@ use models::AuthState;
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 
 fn main() {
-    tauri::Builder::default().manage(AuthState {access_token: Default::default(), expires_in: Default::default(), refresh_token: Default::default(), refresh_token_expires_in: Default::default(), scope: Default::default(), token_type: Default::default()})
+    tauri::Builder::default()
+        .manage(AuthState {
+            tokens: Default::default()
+        })
         .invoke_handler(tauri::generate_handler![
             create_new_gist,
             get_commits_to_repository,
