@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { GithubUser, Nullable } from "../../types";
 import { useAuthContext } from "../context/AuthContext";
 import { Avatar, Card, Col, Row, Layout, Button, Typography } from "antd";
-import * as DOMpurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 const { Content, Sider } = Layout;
 const { Text, Paragraph } = Typography;
@@ -27,10 +27,9 @@ const UserProfile = () => {
             url: "https://api.github.com/repos/aditya172926/aditya172926/readme",
             headers: {Accept: "application/vnd.github.html+json"}
           });
-          console.log("The readme file for aditya is ", `${readme}`);
           setUserProfile(user);
-          // const sanitized_readme = DOMpurify.sanitize(`${readme}`);
-          setUserReadme(readme);
+          const sanitized_readme = DOMPurify.sanitize(`${readme}`);
+          setUserReadme(sanitized_readme);
         } catch (error) {
           console.log("Error in fetching User Profile ", error);
         }
@@ -129,7 +128,8 @@ const UserProfile = () => {
         </Sider>
 
         <Content style={{ padding: "0 24px", overflow: "initial" }}>
-          <div dangerouslySetInnerHTML={{__html: userReadme}} />
+        {/* sanitise the html before passing into this */}
+          <div dangerouslySetInnerHTML={{__html: userReadme}} /> 
         </Content>
       </Layout>
     </>

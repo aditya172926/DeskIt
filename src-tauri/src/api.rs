@@ -55,7 +55,6 @@ pub fn make_get_request(
         .send()?;
     let response_body: String = match response.text() {
         Ok(result) => {
-            println!("The get request response is {:?}", result);
             result
         },
         Err(error) => {
