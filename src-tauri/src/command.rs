@@ -15,8 +15,8 @@ pub fn get_public_gists() -> APIResult<Vec<Gist>> {
 }
 
 #[tauri::command]
-pub fn get_public_repositories() -> APIResult<Vec<Repository>> {
-    let response = match make_get_request(URL::WithBaseUrl(String::from("repositories")), None, None) {
+pub fn get_public_repositories(token: Option<&str>) -> APIResult<Vec<Repository>> {
+    let response = match make_get_request(URL::WithBaseUrl(String::from("repositories")), token, None) {
         Ok(repositories) => repositories,
         Err(error) => {
             println!("Error in get_public_repositories API");
@@ -95,8 +95,8 @@ pub fn get_public_repositories_for_user(username: String) -> APIResult<Vec<Repos
 }
 
 #[tauri::command]
-pub fn get_user_profile(username: String) -> APIResult<GithubUser> {
-    let response = make_get_request(URL::WithBaseUrl(format!("users/{}", username)), None, None)?;
+pub fn get_user_profile(username: String, token: Option<&str>) -> APIResult<GithubUser> {
+    let response = make_get_request(URL::WithBaseUrl(format!("users/{}", username)), token, None)?;
     let response: GithubUser = serde_json::from_str(&response).unwrap();
     Ok(response)
 }

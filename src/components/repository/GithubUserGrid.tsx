@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { GithubUser } from "../../types";
 import { Avatar, Card, List } from "antd";
 
@@ -12,7 +13,7 @@ const GithubUserGrid = ({ users }: Props) => (
     renderItem={(user, index) => (
       <List.Item key={index} style={{ marginTop: "5px" }}>
         <Card.Meta
-          avatar={<Avatar src={user.avatar_url} />} 
+          avatar={<Link to={"/profile"} state={user}><Avatar src={user.avatar_url} /></Link>} 
           title={user.login}
         />
       </List.Item>

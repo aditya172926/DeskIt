@@ -2,15 +2,16 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { Avatar, Button, Col, Modal, Row, Typography } from "antd";
 import { useState } from "react";
 import { pollAuthApi } from "../services/commands";
-import { GithubAuthCode, Nullable } from "../types";
+import { GithubAuthCode, GithubUser, Nullable } from "../types";
 
 interface Props {
   shouldShowModal: boolean;
-  setToken: (param: string) => void;
+  setAccessToken: (param: string) => void;
+  setUserProfile: (param: GithubUser) => void;
   onCancel: () => void;
 }
 
-const AuthModal = ({ shouldShowModal, setToken, onCancel }: Props) => {
+const AuthModal = ({ shouldShowModal, setAccessToken, setUserProfile, onCancel }: Props) => {
   const [authCode, setAuthCode] = useState<Nullable<GithubAuthCode>>(null);
   const { Title, Text } = Typography;
 
@@ -41,7 +42,14 @@ const AuthModal = ({ shouldShowModal, setToken, onCancel }: Props) => {
         }
         if (response?.access_token) {
           console.log("Response ", response); // successful authentication
-          setToken(response.access_token);
+          setAccessToken(response.access_token);
+          // get the authenticated user information here
+          const authenticated_user: string = await invoke("call_api_method", {
+            method: "GET",
+            url: "https://api.github.com/user",
+            token: response.access_token
+          });
+          setUserProfile(JSON.parse(authenticated_user));
           clearInterval(pollResponse);
         }
       }, 6000);

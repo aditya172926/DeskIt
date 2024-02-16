@@ -22,7 +22,7 @@ interface Props {
 }
 
 const AuthContextProvider = ({ children }: Props) => {
-  const [token, setToken] = useState<Nullable<string>>("asdf");
+  const [token, setToken] = useState<Nullable<string>>(null);
   const [shouldShowModal, setShouldShowModal] = useState<boolean>(false);
   const [user, setUserProfile] = useState<Nullable<GithubUser>>(null);
 
@@ -77,7 +77,8 @@ const AuthContextProvider = ({ children }: Props) => {
       {shouldShowModal && (
         <AuthModal
           shouldShowModal={shouldShowModal}
-          setToken={setAccessToken}
+          setAccessToken={setAccessToken}
+          setUserProfile={setUserProfile}
           onCancel={onCancel}
         />
       )}
