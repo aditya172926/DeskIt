@@ -102,3 +102,8 @@ export interface GithubAccessTokens {
     scope: string;
     token_type: string;
 }
+
+export enum UserType {
+    AUTHENTICATED_USER,
+    USER
+}

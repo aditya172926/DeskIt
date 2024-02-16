@@ -8,15 +8,16 @@ import AuthContextProvider from "./components/context/AuthContext";
 import PublicUserRepositories from "./components/repository/PublicUserRepositories";
 import UserProfile from "./components/profile/UserProfile";
 import RequireAuth from "./components/context/RequireAuth";
+import AuthUserProfile from "./components/profile/AuthUserProfile";
 
 const routes = [
   {
     path: "/",
-    element: 
-    <AuthContextProvider>
-      <App />
-    </AuthContextProvider>
-    ,
+    element: (
+      <AuthContextProvider>
+        <App />
+      </AuthContextProvider>
+    ),
     children: [
       { index: true, element: <PublicRepositories /> },
       { path: "repositories/public", element: <PublicRepositories /> },
@@ -51,9 +52,13 @@ const routes = [
       },
       {
         path: "profile",
+        element: <UserProfile />,
+      },
+      {
+        path: "authprofile",
         element: (
           <RequireAuth>
-            <UserProfile />
+            <AuthUserProfile />
           </RequireAuth>
         ),
       },

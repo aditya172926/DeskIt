@@ -40,7 +40,7 @@ const items: MenuProps["items"] = [
       getItem(<Link to={"gist/new"}>Create new gist</Link>, "7"),
     ]),
   ]),
-  getItem(<Link to={"profile"}>Profile</Link>, "8")
+  getItem(<Link to={"authprofile"}>Profile</Link>, "8")
 ];
 
 const NavBar = () => {
