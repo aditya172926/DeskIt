@@ -22,8 +22,10 @@ const ProfileLayout = ({ user, userType }: Props) => {
       if (token) {
         try {
           if (user) {
+            console.log("Fetching readme... for ", user);
             const readme: string = await invoke("call_api_method", {
               method: "GET",
+              token: token,
               url: `https://api.github.com/repos/${username}/${username}/readme`,
               headers: { Accept: "application/vnd.github.html+json" },
             });
@@ -36,7 +38,7 @@ const ProfileLayout = ({ user, userType }: Props) => {
       }
     };
     getUserProfile(user?.login ? user?.login : null);
-  }, [user]);
+  }, [user?.name]);
 
   return (
     <>
