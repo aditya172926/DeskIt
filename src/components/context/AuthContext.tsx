@@ -77,7 +77,7 @@ const AuthContextProvider = ({ children }: Props) => {
       {shouldShowModal && (
         <AuthModal
           shouldShowModal={shouldShowModal}
-          setToken={setAccessToken}
+          setAccessToken={setAccessToken}
           setUserProfile={setUserProfile}
           onCancel={onCancel}
         />

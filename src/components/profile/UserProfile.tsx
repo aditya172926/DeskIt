@@ -1,44 +1,41 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { useMemo, useState } from "react";
-import { GithubUser, Nullable } from "../../types";
-import { useAuthContext } from "../context/AuthContext";
-import { Avatar, Card, Col, Row, Layout, Button, Typography } from "antd";
+import { Avatar, Button, Col, Layout, Row, Typography } from "antd";
 import DOMPurify from "isomorphic-dompurify";
+import { useMemo, useState } from "react";
+import { Nullable } from "../../types";
+import { useAuthContext } from "../context/AuthContext";
 
 const { Content, Sider } = Layout;
 const { Text, Paragraph } = Typography;
 
 const UserProfile = () => {
-  const { token, user, setUserProfile } = useAuthContext();
+  const { token, user } = useAuthContext();
   const [userReadme, setUserReadme] = useState<any>(null);
 
-  const profileView = useMemo(() => {
+  useMemo(() => {
     const getUserProfile = async (username: Nullable<string>) => {
-      console.log("calling getUserProfile");
       if (token) {
         try {
-          console.log("Auth token ", token);
-          // const user: GithubUser = await invoke("get_user_profile", {
-          //   username: username,
-          // });
-          console.log("The user profile is ", user);
           if (user) {
             const readme: string = await invoke("call_api_method", {
               method: "GET",
-              url: "https://api.github.com/repos/aditya172926/aditya172926/readme",
+              url: `https://api.github.com/repos/${username}/${username}/readme`,
               headers: { Accept: "application/vnd.github.html+json" },
             });
             const sanitized_readme = DOMPurify.sanitize(`${readme}`);
             setUserReadme(sanitized_readme);
           }
-          
         } catch (error) {
           console.log("Error in fetching User Profile ", error);
         }
       }
     };
-    getUserProfile(user?.login ? user?.login : null); // hardcoded profile value
-    return (
+    getUserProfile(user?.login ? user?.login : null);
+  }, [user]);
+
+  return (
+    <>
+      <Layout>
       <Sider
         style={{
           background: "lightgray",
@@ -123,13 +120,6 @@ const UserProfile = () => {
           </Col>
         </Row>
       </Sider>
-    );
-  }, [token, user]);
-
-  return (
-    <>
-      <Layout>
-      {profileView}
         <Content style={{ padding: "0 24px", overflow: "initial" }}>
           {/* sanitise the html before passing into this */}
           <div dangerouslySetInnerHTML={{ __html: userReadme }} />
