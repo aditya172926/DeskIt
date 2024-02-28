@@ -1,10 +1,10 @@
 [package]
 name = "deskhub"
 version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Desktop application for Open source"
+authors = ["Aditya"]
 license = ""
-repository = ""
+repository = "https://github.com/aditya172926/deskhub"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
