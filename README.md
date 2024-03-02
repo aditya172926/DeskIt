@@ -18,7 +18,8 @@ Currently, DeskHub builds are available only as windows with .msi files and are 
 
 ![image](https://github.com/aditya172926/deskhub/assets/54861484/32b00129-7890-4e09-a3b7-8e027505a289)
 
-![image](https://github.com/aditya172926/deskhub/assets/54861484/113c7a7d-a4db-4853-9dbd-ac824668343b)
+![image](https://github.com/aditya172926/deskhub/assets/54861484/ba957707-b125-47a4-90da-5680c7968e10)
+
 
 
 
