@@ -8,11 +8,10 @@
 
 
 ## Made using
-- Rust for Backend to write logic under commands which can be called from the frontend
-- ReactJS for Frontend
-- Antd for UI components
+- Rust for Backend logic
+- Vite for Frontend
 
-Currently, DeskHub builds are available only as windows .msi files and are not released in public as it is still under development.
+Currently, DeskHub builds are available only as windows with .msi files and are not released in public as it is still under development.
 
 ## Project Glimpse
 ![image](https://github.com/aditya172926/deskhub/assets/54861484/a8e1c544-99de-4b57-83f7-9447ce9d99a1)
