@@ -1,9 +1,9 @@
+import { invoke } from "@tauri-apps/api/tauri";
+import { Avatar, Button, Col, Layout, Row, Typography } from "antd";
+import DOMPurify from "dompurify";
 import { useMemo, useState } from "react";
 import { GithubUser, Nullable, UserType } from "../../types";
 import { useAuthContext } from "../context/AuthContext";
-import { invoke } from "@tauri-apps/api/tauri";
-import DOMPurify from "dompurify";
-import { Avatar, Button, Col, Layout, Row, Typography } from "antd";
 
 interface Props {
   user: Nullable<GithubUser>;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { Content, Sider } = Layout;
-const { Text, Paragraph } = Typography;
+const { Paragraph } = Typography;
 
 const ProfileLayout = ({ user, userType }: Props) => {
   const { token } = useAuthContext();

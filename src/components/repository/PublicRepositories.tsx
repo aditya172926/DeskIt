@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, message } from "antd";
+import { Button, Col, message } from "antd";
 import { Nullable, Repository } from "../../types";
 import RepositoryDetails from "./RepositoryDetails";
 import MasterDetail from "../MasterDetail";
@@ -11,6 +11,7 @@ const PublicRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
   const { token } = useAuthContext();
+  const [authstate, setAuthState] = useState<any>();
   useEffect(() => {
     const getRepositories = async () => {
       try {
@@ -18,7 +19,10 @@ const PublicRepositories = () => {
           "get_public_repositories",
           { token: token }
         );
-        // const repositories: Repository[] = [];
+
+        const authstate: any = await invoke("get_auth_state");
+        console.log("The authstate is ", authstate);
+        setAuthState(authstate);
         console.log("Public Repositories", repositories);
         setRepositories(repositories);
       } catch (error) {
@@ -42,9 +46,19 @@ const PublicRepositories = () => {
     );
   };
 
+  const changeState = async() => {
+    const changed_auth_state = await invoke("set_auth_state", {newstate: "updated text"});
+    console.log("The auth state changed ", changed_auth_state);
+    const authstate: any = await invoke("get_auth_state");
+        console.log("The authstate is ", authstate);
+        setAuthState(authstate);
+  }
+
   return (
     <>
       {contextHolder}
+      {authstate ? authstate["access_token"] : <p>sample</p>}
+      <Button onClick={changeState}>Change state</Button>
       <MasterDetail
         title={title}
         items={repositories}
