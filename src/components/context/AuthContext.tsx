@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { GithubUser, Nullable } from "../../types";
+import { AuthTokens, GithubUser, Nullable } from "../../types";
 import AuthModal from "../AuthModal";
+import { invoke } from "@tauri-apps/api/tauri";
 
 type AuthContextType = {
   token: Nullable<string>;
@@ -40,9 +41,17 @@ const AuthContextProvider = ({ children }: Props) => {
     return () => clearTimeout(timer);
   }, [token]);
 
-  const setAccessToken = async (access_token: string) => {
-      setToken(access_token);
+  const setAccessToken = async (auth_tokens: AuthTokens) => {
+    try {
+      setToken(auth_tokens.access_token);
+      console.log("We got the auth tokens and now setting the state ", auth_tokens);
+      const changed_auth_state = await invoke("set_auth_state", {authTokens: auth_tokens});
+      console.log("The auth state changed ", changed_auth_state);
       setShouldShowModal(false);
+    } catch (error) {
+      console.log("Error in setting auth state ", error);
+    }
+      
   };
 
   const onCancel = () => {

@@ -1,16 +1,17 @@
-import { useEffect, useState } from "react";
-import { Col, message } from "antd";
-import { Nullable, Repository } from "../../types";
-import RepositoryDetails from "./RepositoryDetails";
-import MasterDetail from "../MasterDetail";
 import { invoke } from "@tauri-apps/api/tauri";
+import { Col, message } from "antd";
+import { useEffect, useState } from "react";
 import { getErrorMessage } from "../../helper";
+import { Nullable, Repository } from "../../types";
+import MasterDetail from "../MasterDetail";
 import { useAuthContext } from "../context/AuthContext";
+import RepositoryDetails from "./RepositoryDetails";
 
 const PublicRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
   const { token } = useAuthContext();
+  const [authstate, setAuthState] = useState<any>();
   useEffect(() => {
     const getRepositories = async () => {
       try {
@@ -18,7 +19,10 @@ const PublicRepositories = () => {
           "get_public_repositories",
           { token: token }
         );
-        // const repositories: Repository[] = [];
+
+        const authstate: any = await invoke("get_auth_state");
+        console.log("The authstate is ", authstate);
+        setAuthState(authstate);
         console.log("Public Repositories", repositories);
         setRepositories(repositories);
       } catch (error) {

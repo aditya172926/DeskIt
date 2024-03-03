@@ -2,11 +2,11 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { Avatar, Button, Col, Modal, Row, Typography } from "antd";
 import { useState } from "react";
 import { pollAuthApi } from "../services/commands";
-import { GithubAuthCode, GithubUser, Nullable } from "../types";
+import { AuthTokens, GithubAuthCode, GithubUser, Nullable } from "../types";
 
 interface Props {
   shouldShowModal: boolean;
-  setAccessToken: (param: string) => void;
+  setAccessToken: (param: AuthTokens) => void;
   setUserProfile: (param: GithubUser) => void;
   onCancel: () => void;
 }
@@ -42,7 +42,7 @@ const AuthModal = ({ shouldShowModal, setAccessToken, setUserProfile, onCancel }
         }
         if (response?.access_token) {
           console.log("Response ", response); // successful authentication
-          setAccessToken(response.access_token);
+          setAccessToken(response);
           // get the authenticated user information here
           const authenticated_user: string = await invoke("call_api_method", {
             method: "GET",

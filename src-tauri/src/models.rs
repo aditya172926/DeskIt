@@ -100,9 +100,9 @@ impl URL {
     }
 }
 
-#[derive(Deserialize, Serialize, Debug)]
+#[derive(Default, Deserialize, Serialize, Debug)]
 pub struct AuthTokens {
-    pub access_token: Mutex<String>,
+    pub access_token: String,
     pub expires_in: u64,
     pub refresh_token: String,
     pub refresh_token_expires_in: u64,
@@ -112,5 +112,5 @@ pub struct AuthTokens {
 
 #[derive(Deserialize, Serialize, Debug)]
 pub struct AuthState {
-    pub tokens: Mutex<HashMap<String, AuthTokens>>
+    pub tokens: Mutex<AuthTokens>
 }

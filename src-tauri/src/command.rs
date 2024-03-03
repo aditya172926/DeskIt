@@ -4,7 +4,10 @@ use crate::models::{
 };
 use std::collections::HashMap;
 use std::process::exit;
+use std::sync::MutexGuard;
 use reqwest::header;
+use serde::Serialize;
+use serde_json::Value;
 use tauri::State;
 
 #[tauri::command]
@@ -163,11 +166,21 @@ pub fn call_api_method(
     }
 }
 
-// #[tauri::command]
-// pub fn set_auth_state(authTokens: AuthTokens, authState: State<AuthState>) -> bool {
-//     let mut state = authState.tokens.lock().unwrap().insert("authTokens".to_string(), authTokens);
-//     true
-// }
+#[tauri::command]
+pub fn get_auth_state(state: State<AuthState>) -> Value {
+    let auth = serde_json::json!(*state);
+    println!("The authstate is {:?}", auth);
+    auth
+}
+
+#[tauri::command]
+pub fn set_auth_state(auth_tokens: AuthTokens, state: State<AuthState>) -> bool {
+    println!("Got auth tokens from frontend {:?}", auth_tokens);
+    let mut auth = state.tokens.lock().unwrap();
+    *auth = auth_tokens;
+    println!("The changed state {:?} ", *auth);
+    true
+}
 
 // #[tauri::command]
 // pub fn get_repo_readme(owner: String, repo_name: String) -> APIResult<String> {
