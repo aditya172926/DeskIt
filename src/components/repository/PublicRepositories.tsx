@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { Button, Col, message } from "antd";
-import { Nullable, Repository } from "../../types";
-import RepositoryDetails from "./RepositoryDetails";
-import MasterDetail from "../MasterDetail";
 import { invoke } from "@tauri-apps/api/tauri";
+import { Col, message } from "antd";
+import { useEffect, useState } from "react";
 import { getErrorMessage } from "../../helper";
+import { Nullable, Repository } from "../../types";
+import MasterDetail from "../MasterDetail";
 import { useAuthContext } from "../context/AuthContext";
+import RepositoryDetails from "./RepositoryDetails";
 
 const PublicRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
@@ -46,19 +46,9 @@ const PublicRepositories = () => {
     );
   };
 
-  const changeState = async() => {
-    const changed_auth_state = await invoke("set_auth_state", {newstate: "updated text"});
-    console.log("The auth state changed ", changed_auth_state);
-    const authstate: any = await invoke("get_auth_state");
-        console.log("The authstate is ", authstate);
-        setAuthState(authstate);
-  }
-
   return (
     <>
       {contextHolder}
-      {authstate ? authstate["access_token"] : <p>sample</p>}
-      <Button onClick={changeState}>Change state</Button>
       <MasterDetail
         title={title}
         items={repositories}

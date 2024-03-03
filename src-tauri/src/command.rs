@@ -168,15 +168,16 @@ pub fn call_api_method(
 
 #[tauri::command]
 pub fn get_auth_state(state: State<AuthState>) -> Value {
-    let mut auth = serde_json::json!(*state);
+    let auth = serde_json::json!(*state);
     println!("The authstate is {:?}", auth);
     auth
 }
 
 #[tauri::command]
-pub fn set_auth_state(newstate: String, state: State<AuthState>) -> bool {
+pub fn set_auth_state(auth_tokens: AuthTokens, state: State<AuthState>) -> bool {
+    println!("Got auth tokens from frontend {:?}", auth_tokens);
     let mut auth = state.tokens.lock().unwrap();
-    auth.access_token = newstate;
+    *auth = auth_tokens;
     println!("The changed state {:?} ", *auth);
     true
 }
