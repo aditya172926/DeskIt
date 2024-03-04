@@ -11,7 +11,17 @@
 - Rust for Backend logic
 - Vite for Frontend
 
-Currently, DeskHub builds are available only as windows with .msi files and are not released in public as it is still under development.
+## Contributing with Ideas
+Ideas about the features and enhancements of this platform are being talked about in <a href="https://github.com/aditya172926/deskhub/discussions">Discussions</a>. You can add your thoughts to an existing idea or create a new discussion for a new feature or enhancement that comes to your mind and contribute to the development of DeskHub.
+
+We would highly appreciate your valuable feedback and ideas about improving the user experience, and most of the users are going to be developers and designers like you.
+
+Some of the topics that are currently in discussion are:
+- Developer experience
+- Problems faced by beginners in open-source and how to solve them
+- New metrics for searching and giving a boost to open-source libraries
+
+Currently, DeskHub builds are available only as Windows with .msi files and are not released in public as it is still under development.
 
 ## Project Glimpse
 ![image](https://github.com/aditya172926/deskhub/assets/54861484/a8e1c544-99de-4b57-83f7-9447ce9d99a1)
