@@ -5,7 +5,7 @@ import { getErrorMessage } from "../../helper";
 import { Nullable, Repository } from "../../types";
 import MasterDetail from "../MasterDetail";
 import { useAuthContext } from "../context/AuthContext";
-import RepositoryDetails from "./RepositoryDetails";
+import RepositoryDetails from "./RepositoryDetails"; 
 
 const PublicRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
