@@ -11,7 +11,7 @@ const PublicRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
   const { token } = useAuthContext();
-  const [authstate, setAuthState] = useState<any>();
+  // const [authstate, setAuthState] = useState<any>();
   useEffect(() => {
     const getRepositories = async () => {
       try {
@@ -22,7 +22,7 @@ const PublicRepositories = () => {
 
         const authstate: any = await invoke("get_auth_state");
         console.log("The authstate is ", authstate);
-        setAuthState(authstate);
+        // setAuthState(authstate);
         console.log("Public Repositories", repositories);
         setRepositories(repositories);
       } catch (error) {
