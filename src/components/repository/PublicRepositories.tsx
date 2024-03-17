@@ -11,7 +11,6 @@ const PublicRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [messageApi, contextHolder] = message.useMessage();
   const { token } = useAuthContext();
-  // const [authstate, setAuthState] = useState<any>();
   useEffect(() => {
     const getRepositories = async () => {
       try {
