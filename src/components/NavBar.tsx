@@ -1,4 +1,4 @@
-import { LockOutlined, UnlockOutlined } from "@ant-design/icons";
+import { UnlockOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import { Link } from "react-router-dom";
