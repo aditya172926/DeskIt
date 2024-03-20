@@ -9,7 +9,7 @@ function App() {
 
   return (
     <ConfigProvider theme={{
-      algorithm: theme.darkAlgorithm
+      algorithm: theme.defaultAlgorithm
     }}>
       <Layout style={{ minHeight: "100vh" }}>
         <NavBar />
