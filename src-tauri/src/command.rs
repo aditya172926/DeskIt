@@ -43,7 +43,6 @@ pub fn get_repositories_for_authenticated_user(token: &str) -> APIResult<Vec<Rep
         Some(token),
         None
     )?;
-    println!("Authenticated user repository response {:?}", response);
     let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
@@ -136,7 +135,6 @@ pub fn call_api_method(
             for (key, value) in object.into_iter() {
                 query_params = format!("{}{}={}&", query_params, key, value);
             }
-            println!("The query params are {}", query_params);
             let url = format!("{}?{}", url, query_params);
             url
         },
@@ -146,7 +144,6 @@ pub fn call_api_method(
     if method == "POST".to_string() {
         let response: serde_json::Value = match make_post_request(URL::WithoutBaseUrl(endpoint), token, data, headers) {
             Ok(result) => {
-                println!("The Result is {:?}", result);
                 serde_json::to_value(result).unwrap()},
             Err(error) => {
                 println!("Error in POST request {:?}", error);
@@ -169,16 +166,13 @@ pub fn call_api_method(
 #[tauri::command]
 pub fn get_auth_state(state: State<AuthState>) -> Value {
     let auth = serde_json::json!(*state);
-    println!("The authstate is {:?}", auth);
     auth
 }
 
 #[tauri::command]
 pub fn set_auth_state(auth_tokens: AuthTokens, state: State<AuthState>) -> bool {
-    println!("Got auth tokens from frontend {:?}", auth_tokens);
     let mut auth = state.tokens.lock().unwrap();
     *auth = auth_tokens;
-    println!("The changed state {:?} ", *auth);
     true
 }
 

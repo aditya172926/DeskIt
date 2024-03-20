@@ -12,7 +12,6 @@ fn construct_headers(
     custom_headers: Option<HashMap<String, String>>,
 ) -> HeaderMap {
     let mut headers = HeaderMap::new();
-    println!("The custom headers are {:?}", custom_headers);
 
     headers.insert(ACCEPT, HeaderValue::from_static("application/vnd.github+json"));
     headers.insert(USER_AGENT, HeaderValue::from_static("Deskhub"));
@@ -27,10 +26,6 @@ fn construct_headers(
                 headers.insert(header_name, HeaderValue::from_str(&header_value).unwrap());
             }
         }
-        println!("The request headers are {:?}", headers);
-    } else {
-        println!("The custom headers are {:?}", custom_headers);
-        println!("No custom headers");
     }
 
     if let Some(token) = token {

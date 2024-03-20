@@ -67,8 +67,8 @@ const AuthModal = ({ shouldShowModal, setAccessToken, setUserProfile, onCancel }
       </Row>
       <Row justify="center" style={{ margin: "5%" }}>
         <Col>
-          <Avatar shape="square" size={50} src="../../app-icon.png" /> -------{" "}
-          <Avatar shape="square" size={50} src="../../github-mark.png" />
+          <Avatar shape="square" size={50} src="/app-icon.png" /> -------{" "}
+          <Avatar shape="square" size={50} src="/github-mark.png" />
         </Col>
       </Row>
       {authCode?.user_code ? (

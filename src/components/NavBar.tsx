@@ -31,15 +31,15 @@ const items: MenuProps["items"] = [
       getItem(<Link to={"gists/public"}>View all gists</Link>, "3"),
     ]),
   ]),
-  getItem("Private Actions", "sub2", <LockOutlined />, [
-    getItem("Repositories", "g3", null, [
-      getItem(<Link to={"repositories/private"}>View my repos</Link>, "5"),
-    ]),
-    getItem("Gists", "g4", null, [
-      getItem(<Link to={"gists/private"}>View my gists</Link>, "6"),
-      getItem(<Link to={"gist/new"}>Create new gist</Link>, "7"),
-    ]),
-  ]),
+  // getItem("Private Actions", "sub2", <LockOutlined />, [
+  //   getItem("Repositories", "g3", null, [
+  //     getItem(<Link to={"repositories/private"}>View my repos</Link>, "5"),
+  //   ]),
+  //   getItem("Gists", "g4", null, [
+  //     getItem(<Link to={"gists/private"}>View my gists</Link>, "6"),
+  //     getItem(<Link to={"gist/new"}>Create new gist</Link>, "7"),
+  //   ]),
+  // ]),
   getItem(<Link to={"authprofile"}>Profile</Link>, "8")
 ];
 
