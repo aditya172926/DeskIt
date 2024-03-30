@@ -1,4 +1,3 @@
-import { Modal } from "antd";
 import { ReactNode } from "react";
 import { Nullable } from "../../types";
 
@@ -14,27 +13,27 @@ interface Props {
 }
 
 const ModalInterface = ({
-  title,
-  centered,
-  okText,
-  cancelText,
-  onOk,
-  onCancel,
-  open,
-  detailLayout,
+  // title,
+  // centered,
+  // okText,
+  // cancelText,
+  // onOk,
+  // onCancel,
+  // open,
+  // detailLayout,
 }: Props) => {
-  return (
-    <Modal
-      title={title}
-      centered={centered}
-      okText={okText}
-      cancelText={cancelText ? cancelText : "Cancel"}
-      open={open}
-      onOk={onOk}
-      onCancel={onCancel}
-    >
-      {detailLayout}
-    </Modal>
+  return (<></>
+    // <Modal
+    //   title={title}
+    //   centered={centered}
+    //   okText={okText}
+    //   cancelText={cancelText ? cancelText : "Cancel"}
+    //   open={open}
+    //   onOk={onOk}
+    //   onCancel={onCancel}
+    // >
+    //   {detailLayout}
+    // </Modal>
   );
 };
 

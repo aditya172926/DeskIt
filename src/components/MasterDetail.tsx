@@ -1,6 +1,5 @@
 import { GithubItem, Nullable } from "../types";
 import { ReactNode, useState } from "react";
-import { Affix, Card, Row, Col, Typography } from "antd";
 import ListItem from "./ListItem";
 
 interface Props<T> {
@@ -11,16 +10,17 @@ interface Props<T> {
 }
 
 const MasterDetail = <T extends GithubItem>({
-  title,
-  items,
-  getItemDescription,
-  detailLayout,
+  // title,
+  // items,
+  // getItemDescription,
+  // detailLayout,
 }: Props<T>) => {
   const [selectedItem, setSelectedItem] = useState<Nullable<T>>(null);
 
   return (
     <>
-      <Row justify="center">
+
+      {/* <Row justify="center">
         <Col>
           <Typography.Title level={3}>{title}</Typography.Title>
         </Col>
@@ -47,7 +47,7 @@ const MasterDetail = <T extends GithubItem>({
           </Affix>
         </Col>
         {detailLayout(selectedItem)}
-      </Row>
+      </Row> */}
     </>
   );
 };

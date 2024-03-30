@@ -1,5 +1,4 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { Avatar, Button, Col, Modal, Row, Typography } from "antd";
 import { useState } from "react";
 import { pollAuthApi } from "../services/commands";
 import { AuthTokens, GithubAuthCode, GithubUser, Nullable } from "../types";
@@ -13,7 +12,6 @@ interface Props {
 
 const AuthModal = ({ shouldShowModal, setAccessToken, setUserProfile, onCancel }: Props) => {
   const [authCode, setAuthCode] = useState<Nullable<GithubAuthCode>>(null);
-  const { Title, Text } = Typography;
 
   const authenticate_with_github = async (): Promise<void> => {
     try {
@@ -59,41 +57,42 @@ const AuthModal = ({ shouldShowModal, setAccessToken, setUserProfile, onCancel }
   };
 
   return (
-    <Modal centered footer={null} open={shouldShowModal} onCancel={onCancel}>
-      <Row justify="center">
-        <Col>
-          <Title level={4}>Authenticate using Github</Title>
-        </Col>
-      </Row>
-      <Row justify="center" style={{ margin: "5%" }}>
-        <Col>
-          <Avatar shape="square" size={50} src="/app-icon.png" /> -------{" "}
-          <Avatar shape="square" size={50} src="/github-mark.png" />
-        </Col>
-      </Row>
-      {authCode?.user_code ? (
-        <>
-          <Row justify="center">
-            <Col>
-              <Title level={4}>{authCode?.user_code}</Title>
-            </Col>
-          </Row>
-          <Row justify="center">
-            <Col>
-              <Text>Paste the above code in the new window</Text>
-            </Col>
-          </Row>
-        </>
-      ) : (
-        <Row justify="center" style={{ margin: "5%" }}>
-          <Col span={24}>
-            <Button onClick={() => authenticate_with_github()} block={true}>
-              Sign In with GitHub
-            </Button>
-          </Col>
-        </Row>
-      )}
-    </Modal>
+    // <Modal centered footer={null} open={shouldShowModal} onCancel={onCancel}>
+    //   <Row justify="center">
+    //     <Col>
+    //       <Title level={4}>Authenticate using Github</Title>
+    //     </Col>
+    //   </Row>
+    //   <Row justify="center" style={{ margin: "5%" }}>
+    //     <Col>
+    //       <Avatar shape="square" size={50} src="/app-icon.png" /> -------{" "}
+    //       <Avatar shape="square" size={50} src="/github-mark.png" />
+    //     </Col>
+    //   </Row>
+    //   {authCode?.user_code ? (
+    //     <>
+    //       <Row justify="center">
+    //         <Col>
+    //           <Title level={4}>{authCode?.user_code}</Title>
+    //         </Col>
+    //       </Row>
+    //       <Row justify="center">
+    //         <Col>
+    //           <Text>Paste the above code in the new window</Text>
+    //         </Col>
+    //       </Row>
+    //     </>
+    //   ) : (
+    //     <Row justify="center" style={{ margin: "5%" }}>
+    //       <Col span={24}>
+    //         <Button onClick={() => authenticate_with_github()} block={true}>
+    //           Sign In with GitHub
+    //         </Button>
+    //       </Col>
+    //     </Row>
+    //   )}
+    // </Modal>
+    <></>
   );
 };
 

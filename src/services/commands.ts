@@ -1,9 +1,10 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { Repository } from "../types";
+import { Nullable, Repository } from "../types";
 
-export const getRepositories = async () => {
+export const getRepositories = async (token: Nullable<string>) => {
   try {
-    const repositories: Repository[] = await invoke("get_public_repositories");
+    const repositories: Repository[] = await invoke("get_public_repositories", { token: token }
+    );
     console.log("Public Repositories", repositories);
     return repositories;
   } catch (error) {

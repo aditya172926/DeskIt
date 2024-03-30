@@ -1,5 +1,4 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { Carousel, Col, Row, Spin, Typography } from "antd";
 import Prism from "prismjs";
 import "prismjs/themes/prism-okaidia.min.css";
 import { useEffect, useState } from "react";
@@ -34,7 +33,8 @@ const GistDetails = ({ gist }: Props) => {
 
   return (
     <>
-      <Spin tip="Loading" spinning={isLoading}>
+    <><p>Gist details</p></>
+      {/* <Spin tip="Loading" spinning={isLoading}>
         <Row justify="center">
           <Col>
             {gist.description && (
@@ -53,7 +53,7 @@ const GistDetails = ({ gist }: Props) => {
                 ))}
             </Carousel>
         </div>
-      </Spin>
+      </Spin> */}
     </>
   );
 };

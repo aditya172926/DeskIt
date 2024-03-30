@@ -1,6 +1,4 @@
 import { useAuthContext } from "../context/AuthContext";
-import { Button, Card, Divider, Form, Input, message, Switch } from "antd";
-import { DeleteTwoTone, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { GistInput, NewGistResponse } from "../../types";
 import { invoke } from "@tauri-apps/api/tauri";
@@ -8,7 +6,6 @@ import { getErrorMessage } from "../../helper";
 
 const CreateGist = () => {
   const { token } = useAuthContext();
-  const [messageApi, contextHolder] = message.useMessage();
   const navigate = useNavigate();
 
   const onFinish = async (values: GistInput) => {
@@ -29,25 +26,17 @@ const CreateGist = () => {
         gist,
         token,
       });
-      messageApi.open({
-        type: "success",
-        content: `Gist ${response.id} created successfully`,
-      });
       setTimeout(() => {
         navigate("/gists/private");
       }, 3000);
     } catch (error) {
-      messageApi.open({
-        type: "error",
-        content: getErrorMessage(error),
-      });
     }
   };
 
   return (
     <>
-      {contextHolder}
-      <Card title="Create a new Gist">
+    <><p>Create gist</p></>
+      {/* <Card title="Create a new Gist">
         <Form name="gist" onFinish={onFinish} autoComplete="off">
           <Form.Item name="description">
             <Input placeholder="Gist description..." />
@@ -147,7 +136,7 @@ const CreateGist = () => {
             </Button>
           </Form.Item>
         </Form>
-      </Card>
+      </Card> */}
     </>
   );
 };

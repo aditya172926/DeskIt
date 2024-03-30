@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { GithubItem, Nullable } from "../types";
-import { Avatar, Card, Skeleton } from "antd";
 
 interface Props<T> {
   item: T;
@@ -41,15 +40,16 @@ const ListItem = <T extends GithubItem>({
   }, []);
 
   return (
-    <Card.Grid hoverable={true} style={gridStyle} onClick={onClickHandler}>
-      <Skeleton loading={loading} avatar active>
-        <Card.Meta
-          avatar={<Avatar src={item.owner.avatar_url} />}
-          title={title}
-          description={`By ${item.owner.login}`}
-        />
-      </Skeleton>
-    </Card.Grid>
+    <p>{title}</p>
+    // <Card.Grid hoverable={true} style={gridStyle} onClick={onClickHandler}>
+    //   <Skeleton loading={loading} avatar active>
+    //     <Card.Meta
+    //       avatar={<Avatar src={item.owner.avatar_url} />}
+    //       title={title}
+    //       description={`By ${item.owner.login}`}
+    //     />
+    //   </Skeleton>
+    // </Card.Grid>
   );
 };
 

@@ -1,7 +1,5 @@
-import { Button } from "antd";
 import { Nullable } from "../../types";
 import { ReactNode } from "react";
-import { SearchOutlined } from "@ant-design/icons";
 
 enum SearchUIType {
   Button,
@@ -10,19 +8,20 @@ enum SearchUIType {
 
 interface Props {
   type: SearchUIType;
-  icon: Nullable<ReactNode>;
+  icon?: Nullable<ReactNode>;
   onClick: () => void;
 }
 
 const SearchInterface = ({ type, icon, onClick }: Props) => {
   if (type === SearchUIType.Button) {
     return (
-      <Button
-        type="primary"
-        shape="circle"
-        icon={icon ? icon : <SearchOutlined />}
-        onClick={onClick}
-      />
+      // <Button
+      //   type="primary"
+      //   shape="circle"
+      //   icon={icon ? icon : <SearchOutlined />}
+      //   onClick={onClick}
+      // />
+      <></>
     );
   }
 };
