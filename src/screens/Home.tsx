@@ -20,7 +20,7 @@ const Home = () => {
         <>
             <div
                 id="scrollableDiv"
-                style={{ height: "80vh", overflow: "auto", padding: "0 5px" }}
+                style={{ height: "100vh", overflow: "auto", padding: "0 5px" }}
             >
                 {/* <Card bordered={false} style={{ boxShadow: "none" }}> */}
                 {repositories.map((item: Repository, index: number) => (
