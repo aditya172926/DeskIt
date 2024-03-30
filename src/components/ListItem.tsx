@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { GithubItem, Nullable } from "../types";
+import { Avatar, Box, Card, CardBody, CardHeader, Flex, Heading, Text } from "@chakra-ui/react";
 
 interface Props<T> {
   item: T;
@@ -40,7 +41,19 @@ const ListItem = <T extends GithubItem>({
   }, []);
 
   return (
-    <p>{title}</p>
+    // <p>{title}</p>
+    <Card>
+      <CardHeader>
+        <Flex gap={4}>
+          <Avatar src={item.owner.avatar_url} />
+          <Box>
+            <Heading size='sm'>{title}</Heading>
+            <Text>{item.description}</Text>
+          </Box>
+        </Flex>
+
+      </CardHeader>
+    </Card>
     // <Card.Grid hoverable={true} style={gridStyle} onClick={onClickHandler}>
     //   <Skeleton loading={loading} avatar active>
     //     <Card.Meta

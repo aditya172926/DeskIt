@@ -4,7 +4,7 @@ import { useAuthContext } from "../components/context/AuthContext";
 import { getRepositories } from "../services/commands";
 import { GithubItem, Nullable, Repository } from "../types";
 
-const Home = () => {
+const Explore = () => {
     const { token } = useAuthContext();
     const [repositories, setRepositories] = useState<Repository[]>([]);
     const [selectedItem, setSelectedItem] = useState<Nullable<GithubItem>>(null);
@@ -18,24 +18,23 @@ const Home = () => {
 
     return (
         <>
+        <h2>Top Repositories</h2>
             <div
                 id="scrollableDiv"
                 style={{ height: "100vh", overflow: "auto", padding: "0 5px" }}
             >
-                {/* <Card bordered={false} style={{ boxShadow: "none" }}> */}
                 {repositories.map((item: Repository, index: number) => (
                     <ListItem
                         key={index}
                         item={item}
                         onSelect={setSelectedItem}
                         selectedItem={selectedItem}
-                        title={item.description}
+                        title={item.name}
                     />
                 ))}
-                {/* </Card> */}
             </div>
         </>
     )
 
 };
-export default Home;
+export default Explore;
