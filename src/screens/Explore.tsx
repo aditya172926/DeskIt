@@ -17,37 +17,69 @@ const Explore = () => {
         repos();
     }, [token]);
 
+    const preSelect = () => (
+        <Container maxW="5xl">
+            <h2>Top Repositories</h2>
+            <Grid
+                templateRows='repeat(2, 1fr)'
+                templateColumns='repeat(4, 1fr)'>
+                <GridItem colSpan={2} rowSpan={2}>
+                    <div
+                        id="scrollableDiv"
+                        style={{ height: "100vh", overflow: "auto", padding: "0 5px" }}
+                    >
+                        {repositories.map((item: Repository, index: number) => (
+                            <ListItem
+                                key={index}
+                                item={item}
+                                onSelect={setSelectedItem}
+                                selectedItem={selectedItem}
+                                title={item.name}
+                            />
+                        ))}
+                    </div>
+                </GridItem>
+                <GridItem colSpan={2}>
+                    <p>Your currently work in progress issues</p>
+                </GridItem>
+                <GridItem colSpan={2}>
+                    <p>Your currently work in progress PRs</p>
+                </GridItem>
+            </Grid>
+        </Container>
+    );
+
+    const postSelect = () => (
+        <>
+            <Grid
+                templateRows='repeat(2, 1fr)'
+                templateColumns='repeat(4, 1fr)'>
+                <GridItem colSpan={1} rowSpan={2}>
+                    <div
+                        id="scrollableDiv"
+                        style={{ height: "100vh", overflow: "auto", padding: "0 5px" }}
+                    >
+                        {repositories.map((item: Repository, index: number) => (
+                            <ListItem
+                                key={index}
+                                item={item}
+                                onSelect={setSelectedItem}
+                                selectedItem={selectedItem}
+                                title={item.name}
+                            />
+                        ))}
+                    </div>
+                </GridItem>
+                <GridItem colSpan={3}>
+                    <p>Show the selected repo "{selectedItem?.description}" information here like code contributors, stargrazers, commit history and code files</p>
+                </GridItem>
+            </Grid>
+        </>
+    );
+
     return (
         <>
-            <Container maxW="5xl">
-                <h2>Top Repositories</h2>
-                <Grid
-                    templateRows='repeat(2, 1fr)'
-                    templateColumns='repeat(4, 1fr)'>
-                    <GridItem colSpan={2} rowSpan={2}>
-                        <div
-                            id="scrollableDiv"
-                            style={{ height: "100vh", overflow: "auto", padding: "0 5px" }}
-                        >
-                            {repositories.map((item: Repository, index: number) => (
-                                <ListItem
-                                    key={index}
-                                    item={item}
-                                    onSelect={setSelectedItem}
-                                    selectedItem={selectedItem}
-                                    title={item.name}
-                                />
-                            ))}
-                        </div>
-                    </GridItem>
-                    <GridItem colSpan={2}>
-                        <p>Your work info</p>
-                    </GridItem>
-                    <GridItem colSpan={2}>
-                        <p>Your events info</p>
-                    </GridItem>
-                </Grid>
-            </Container>
+            {selectedItem ? postSelect() : preSelect()}
         </>
     )
 
