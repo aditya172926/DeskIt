@@ -3,7 +3,7 @@ name: "publish"
 on:
   push:
     tags:
-      - 'deskit-v*
+      - 'deskit-v*'
     branches:
       - main
 
