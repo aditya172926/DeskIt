@@ -14,7 +14,7 @@ fn construct_headers(
     let mut headers = HeaderMap::new();
 
     headers.insert(ACCEPT, HeaderValue::from_static("application/vnd.github+json"));
-    headers.insert(USER_AGENT, HeaderValue::from_static("Deskhub"));
+    headers.insert(USER_AGENT, HeaderValue::from_static("DeskIt"));
     headers.insert(
         "X-GitHub-Api-Version",
         HeaderValue::from_static("2022-11-28"),
