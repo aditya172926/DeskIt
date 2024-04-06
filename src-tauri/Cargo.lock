@@ -557,7 +557,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "deskhub"
+name = "deskit"
 version = "0.0.0"
 dependencies = [
  "reqwest",

@@ -1,10 +1,10 @@
 [package]
-name = "deskhub"
+name = "deskit"
 version = "0.0.0"
 description = "Desktop application for Open source"
 authors = ["Aditya"]
 license = ""
-repository = "https://github.com/aditya172926/deskhub"
+repository = "https://github.com/aditya172926/deskit"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
