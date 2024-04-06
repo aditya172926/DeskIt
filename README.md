@@ -1,7 +1,7 @@
 <div align='center'>
   <img src="https://github.com/aditya172926/deskhub/assets/54861484/a0961506-b3a4-4ba1-aabb-24764da4c33e" width=20% height=20%>
   
-  # DeskHub
+  # DeskIt
   
   A Desktop app for exploring and working with Open Source Projects
 </div>
