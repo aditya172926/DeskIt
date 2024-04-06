@@ -32,6 +32,7 @@ const ListItem = <T extends GithubItem>({
 
   const onClickHandler = () => {
     onSelect(item);
+    console.log(item);
   };
 
   useEffect(() => {
