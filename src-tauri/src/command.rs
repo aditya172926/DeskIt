@@ -1,7 +1,6 @@
 use crate::api::{make_get_request, make_post_request};
 use crate::models::{
-    APIResult, AuthState, AuthTokens, Commit, Gist, GistInput, GithubUser, NewGistResponse,
-    Repository, URL,
+    APIResult, ApiRequest, AuthState, AuthTokens, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL
 };
 use serde_json::Value;
 use std::collections::HashMap;
@@ -124,12 +123,8 @@ pub async fn generate_new_window(
 
 #[tauri::command]
 pub fn call_api_method(
-    method: String,
-    url: String,
+    request: Vec<ApiRequest>, // lets try request name mapped to the request body
     token: Option<&str>,
-    query: Option<HashMap<String, String>>,
-    data: Option<serde_json::Value>,
-    headers: Option<HashMap<String, String>>,
 ) -> APIResult<serde_json::Value> {
     let endpoint: String = match query {
         Some(object) => {

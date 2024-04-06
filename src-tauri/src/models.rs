@@ -114,3 +114,12 @@ pub struct AuthTokens {
 pub struct AuthState {
     pub tokens: Mutex<AuthTokens>
 }
+
+#[derive(Deserialize, Serialize, Debug)]
+pub struct ApiRequest {
+    method: String,
+    url: String,
+    query: Option<HashMap<String, String>>, // for get requests
+    body: Option<serde_json::Value>, // for post request
+    headers: Option<HashMap<String, String>>
+}
