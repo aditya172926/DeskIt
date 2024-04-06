@@ -2,13 +2,13 @@ name: "publish"
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'deskit-v*
 
 # On each push to the `release` branch it will create or update a GitHub release, build your app, and upload the artifacts to the release.
 
 jobs:
-  publish-deskhub:
+  publish-deskit:
     permissions:
       contents: write
     strategy:
