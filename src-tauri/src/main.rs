@@ -11,7 +11,7 @@ mod command;
 mod error;
 mod models;
 
-use models::{ AuthState, AuthTokens};
+use models::AuthState;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 

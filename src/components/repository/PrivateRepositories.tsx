@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../context/AuthContext";
 import RepositoryDetails from "./RepositoryDetails";
 import MasterDetail from "../MasterDetail";
-import { Col, message } from "antd";
 import { Nullable, Repository } from "../../types";
 import { invoke } from "@tauri-apps/api/tauri";
 import { getErrorMessage } from "../../helper";
@@ -10,7 +9,6 @@ import { getErrorMessage } from "../../helper";
 const PrivateRepositories = () => {
   const { token } = useAuthContext();
   const [repositories, setRepositories] = useState<Repository[]>([]);
-  const [messageApi, contextHolder] = message.useMessage();
 
   useEffect(() => {
     const getRepositories = async () => {
@@ -22,10 +20,7 @@ const PrivateRepositories = () => {
           );
           setRepositories(repositories);
         } catch (error) {
-          messageApi.open({
-            type: "error",
-            content: getErrorMessage(error),
-          });
+          throw new Error("Error in private repos");
         }
       }
     };
@@ -37,15 +32,12 @@ const PrivateRepositories = () => {
   const detailLayout = (repository: Nullable<Repository>) => {
     if (!repository) return null;
     return (
-      <Col span={18}>
         <RepositoryDetails repository={repository} token={token} />
-      </Col>
     );
   };
 
   return (
     <>
-      {contextHolder}
       <MasterDetail
         title={title}
         items={repositories}

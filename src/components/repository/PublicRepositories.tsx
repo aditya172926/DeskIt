@@ -1,5 +1,4 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { Col, message } from "antd";
 import { useEffect, useState } from "react";
 import { getErrorMessage } from "../../helper";
 import { Nullable, Repository } from "../../types";
@@ -9,7 +8,6 @@ import RepositoryDetails from "./RepositoryDetails";
 
 const PublicRepositories = () => {
   const [repositories, setRepositories] = useState<Repository[]>([]);
-  const [messageApi, contextHolder] = message.useMessage();
   const { token } = useAuthContext();
   useEffect(() => {
     const getRepositories = async () => {
@@ -25,10 +23,7 @@ const PublicRepositories = () => {
         console.log("Public Repositories", repositories);
         setRepositories(repositories);
       } catch (error) {
-        messageApi.open({
-          type: "error",
-          content: getErrorMessage(error),
-        });
+        throw new Error("Repository fetch error");
       }
     };
     getRepositories();
@@ -39,15 +34,12 @@ const PublicRepositories = () => {
   const detailLayout = (repository: Nullable<Repository>) => {
     if (!repository) return null;
     return (
-      <Col span={18}>
         <RepositoryDetails repository={repository} token={token} />
-      </Col>
     );
   };
 
   return (
     <>
-      {contextHolder}
       <MasterDetail
         title={title}
         items={repositories}

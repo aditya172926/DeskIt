@@ -1,5 +1,4 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { Avatar, Button, Col, Layout, Row, Typography } from "antd";
 import DOMPurify from "dompurify";
 import { useMemo, useState } from "react";
 import { GithubUser, Nullable, UserType } from "../../types";
@@ -9,9 +8,6 @@ interface Props {
   user: Nullable<GithubUser>;
   userType: UserType;
 }
-
-const { Content, Sider } = Layout;
-const { Paragraph } = Typography;
 
 const ProfileLayout = ({ user, userType }: Props) => {
   const { token } = useAuthContext();
@@ -42,7 +38,8 @@ const ProfileLayout = ({ user, userType }: Props) => {
 
   return (
     <>
-      <Layout>
+    <><p>Profile layout</p></>
+      {/* <Layout>
         <Sider
           style={{
             background: "lightgray",
@@ -130,10 +127,9 @@ const ProfileLayout = ({ user, userType }: Props) => {
           </Row>
         </Sider>
         <Content style={{ padding: "0 24px", overflow: "initial" }}>
-          {/* sanitise the html before passing into this */}
           <div dangerouslySetInnerHTML={{ __html: userReadme }} />
         </Content>
-      </Layout>
+      </Layout> */}
     </>
   );
 };

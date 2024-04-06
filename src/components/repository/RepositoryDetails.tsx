@@ -1,5 +1,4 @@
 import { invoke } from "@tauri-apps/api/tauri";
-import { Avatar, Card, Divider, Popover, Spin, Timeline, Typography } from "antd";
 import { useEffect, useState } from "react";
 import { Commit, GithubUser, Nullable, Repository } from "../../types";
 import GithubUserGrid from "./GithubUserGrid";
@@ -48,40 +47,41 @@ const RepositoryDetails = ({ repository, token = null }: Props) => {
   }, [repository]);
 
   return (
-    <Card title={repository.name} bordered={false} style={{ margin: "1%" }}>
-      {repository.description}
-      <Divider />
+    <>Repo title: {repository.name}</>
+    // <Card title={repository.name} bordered={false} style={{ margin: "1%" }}>
+    //   {repository.description}
+    //   <Divider />
 
-      <Spin tip="Loading" spinning={isLoading}>
-        <Typography.Title level={5} style={{ margin: 10 }}>
-          Contributors
-        </Typography.Title>
-        <GithubUserGrid users={contributors} />
-        <Divider />
+    //   <Spin tip="Loading" spinning={isLoading}>
+    //     <Typography.Title level={5} style={{ margin: 10 }}>
+    //       Contributors
+    //     </Typography.Title>
+    //     <GithubUserGrid users={contributors} />
+    //     <Divider />
 
-        <Typography.Title level={5} style={{ marginBottom: 15 }}>
-          Stargazers
-        </Typography.Title>
-        <GithubUserGrid users={stargazers} />
-        <Divider />
+    //     <Typography.Title level={5} style={{ marginBottom: 15 }}>
+    //       Stargazers
+    //     </Typography.Title>
+    //     <GithubUserGrid users={stargazers} />
+    //     <Divider />
 
-        <Typography.Title level={5} style={{ marginBottom: 15 }}>
-          Commits
-        </Typography.Title>
-        <Timeline mode="alternate">
-          {commits.map((commit, index) => {
-            if (commit.commit) {
-              return (
-                <Timeline.Item key={index} dot={<Popover content={<p>{commit.commit?.author?.name}</p>}><Avatar src={commit.committer?.avatar_url} /></Popover>}>
-                  <p style={{padding: "0px 5px 0px 5px"}}>{commit.commit?.message}</p>
-                </Timeline.Item>
-              );
-            }
-            return null;
-          })}
-        </Timeline>
-      </Spin>
-    </Card>
+    //     <Typography.Title level={5} style={{ marginBottom: 15 }}>
+    //       Commits
+    //     </Typography.Title>
+    //     <Timeline mode="alternate">
+    //       {commits.map((commit, index) => {
+    //         if (commit.commit) {
+    //           return (
+    //             <Timeline.Item key={index} dot={<Popover content={<p>{commit.commit?.author?.name}</p>}><Avatar src={commit.committer?.avatar_url} /></Popover>}>
+    //               <p style={{padding: "0px 5px 0px 5px"}}>{commit.commit?.message}</p>
+    //             </Timeline.Item>
+    //           );
+    //         }
+    //         return null;
+    //       })}
+    //     </Timeline>
+    //   </Spin>
+    // </Card>
   );
 };
 

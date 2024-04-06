@@ -1,13 +1,10 @@
 use crate::api::{make_get_request, make_post_request};
 use crate::models::{
-    APIResult, AuthState, AuthTokens, Commit, Gist, GistInput, GithubUser, NewGistResponse, Repository, URL
+    APIResult, AuthState, AuthTokens, Commit, Gist, GistInput, GithubUser, NewGistResponse,
+    Repository, URL,
 };
-use std::collections::HashMap;
-use std::process::exit;
-use std::sync::MutexGuard;
-use reqwest::header;
-use serde::Serialize;
 use serde_json::Value;
+use std::collections::HashMap;
 use tauri::State;
 
 #[tauri::command]
@@ -19,17 +16,18 @@ pub fn get_public_gists() -> APIResult<Vec<Gist>> {
 
 #[tauri::command]
 pub fn get_public_repositories(token: Option<&str>) -> APIResult<Vec<Repository>> {
-    let response = match make_get_request(URL::WithBaseUrl(String::from("repositories")), token, None) {
-        Ok(repositories) => repositories,
-        Err(error) => {
-            println!("Error in get_public_repositories API");
-            String::new()
-        }
-    };
+    let response =
+        match make_get_request(URL::WithBaseUrl(String::from("repositories")), token, None) {
+            Ok(repositories) => repositories,
+            Err(error) => {
+                println!("Error in get_public_repositories API {:?}", error);
+                String::new()
+            }
+        };
     let response: Vec<Repository> = match serde_json::from_str(&response) {
         Ok(result) => result,
         Err(error) => {
-            println!("Error in serializing Public repositories");
+            println!("Error in serializing Public repositories {:?}", error);
             vec![]
         }
     };
@@ -41,7 +39,7 @@ pub fn get_repositories_for_authenticated_user(token: &str) -> APIResult<Vec<Rep
     let response = make_get_request(
         URL::WithBaseUrl(String::from("users/repos?type=private")),
         Some(token),
-        None
+        None,
     )?;
     let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
@@ -83,7 +81,7 @@ pub fn create_new_gist(gist: GistInput, token: &str) -> APIResult<NewGistRespons
         URL::WithBaseUrl(String::from("gists")),
         Some(token),
         Some(gist),
-        None
+        None,
     )?;
     let response: NewGistResponse = serde_json::from_str(&response).unwrap();
     Ok(response)
@@ -91,7 +89,11 @@ pub fn create_new_gist(gist: GistInput, token: &str) -> APIResult<NewGistRespons
 
 #[tauri::command]
 pub fn get_public_repositories_for_user(username: String) -> APIResult<Vec<Repository>> {
-    let response = make_get_request(URL::WithBaseUrl(format!("users/{}/repos", username)), None, None)?;
+    let response = make_get_request(
+        URL::WithBaseUrl(format!("users/{}/repos", username)),
+        None,
+        None,
+    )?;
     let response: Vec<Repository> = serde_json::from_str(&response).unwrap();
     Ok(response)
 }
@@ -127,7 +129,7 @@ pub fn call_api_method(
     token: Option<&str>,
     query: Option<HashMap<String, String>>,
     data: Option<serde_json::Value>,
-    headers: Option<HashMap<String, String>>
+    headers: Option<HashMap<String, String>>,
 ) -> APIResult<serde_json::Value> {
     let endpoint: String = match query {
         Some(object) => {
@@ -137,28 +139,29 @@ pub fn call_api_method(
             }
             let url = format!("{}?{}", url, query_params);
             url
-        },
-        None => url
+        }
+        None => url,
     };
 
     if method == "POST".to_string() {
-        let response: serde_json::Value = match make_post_request(URL::WithoutBaseUrl(endpoint), token, data, headers) {
-            Ok(result) => {
-                serde_json::to_value(result).unwrap()},
-            Err(error) => {
-                println!("Error in POST request {:?}", error);
-                serde_json::Value::default()
-            }
-        };
+        let response: serde_json::Value =
+            match make_post_request(URL::WithoutBaseUrl(endpoint), token, data, headers) {
+                Ok(result) => serde_json::to_value(result).unwrap(),
+                Err(error) => {
+                    println!("Error in POST request {:?}", error);
+                    serde_json::Value::default()
+                }
+            };
         Ok(response)
     } else {
-        let response: serde_json::Value = match make_get_request(URL::WithoutBaseUrl(endpoint), token, headers) {
-            Ok(result) => serde_json::to_value(&result).unwrap(),
-            Err(error) => {
-                println!("Error in GET request {:?}", error);
-                serde_json::Value::default()
-            }
-        };
+        let response: serde_json::Value =
+            match make_get_request(URL::WithoutBaseUrl(endpoint), token, headers) {
+                Ok(result) => serde_json::to_value(&result).unwrap(),
+                Err(error) => {
+                    println!("Error in GET request {:?}", error);
+                    serde_json::Value::default()
+                }
+            };
         Ok(response)
     }
 }
@@ -178,5 +181,5 @@ pub fn set_auth_state(auth_tokens: AuthTokens, state: State<AuthState>) -> bool 
 
 // #[tauri::command]
 // pub fn get_repo_readme(owner: String, repo_name: String) -> APIResult<String> {
-    
+
 // }

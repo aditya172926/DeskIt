@@ -9,6 +9,7 @@ import PublicUserRepositories from "./components/repository/PublicUserRepositori
 import UserProfile from "./components/profile/UserProfile";
 import RequireAuth from "./components/context/RequireAuth";
 import AuthUserProfile from "./components/profile/AuthUserProfile";
+import Explore from "./screens/Explore";
 
 const routes = [
   {
@@ -19,7 +20,7 @@ const routes = [
       </AuthContextProvider>
     ),
     children: [
-      { index: true, element: <PublicRepositories /> },
+      { index: true, element: <Explore /> },
       { path: "repositories/public", element: <PublicRepositories /> },
       { path: "gists/public", element: <PublicGists /> },
       {
