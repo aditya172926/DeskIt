@@ -124,50 +124,42 @@ pub async fn generate_new_window(
 
 #[tauri::command]
 pub fn call_api_method(
-    requests: Vec<ApiRequest>,
-    token: Option<String>,
-) {
-    for request in requests {
-        let handle_requests = thread::spawn(move || {
-            let endpoint: String = match request.query {
-                Some(object) => {
-                    let mut query_params: String = String::new();
-                    for (key, value) in object.into_iter() {
-                        query_params = format!("{}{}={}&", query_params, key, value);
-                    }
-                    let url = format!("{}?{}", request.url, query_params);
-                    url 
+    request: ApiRequest,
+    token: Option<&str>,
+) -> APIResult<serde_json::Value> {
+    let endpoint: String = match request.query {
+        Some(object) => {
+            let mut query_params: String = String::new();
+            for (key, value) in object.into_iter() {
+                query_params = format!("{}{}={}&", query_params, key, value);
+            }
+            let url = format!("{}?{}", request.url, query_params);
+            url 
+        }
+        None => request.url,
+    };
+
+    if request.method == "POST".to_string() {
+        let response: serde_json::Value =
+            match make_post_request(URL::WithoutBaseUrl(endpoint), token, request.body, request.headers) {
+                Ok(result) => serde_json::to_value(result).unwrap(),
+                Err(error) => {
+                    println!("Error in POST request {:?}", error);
+                    serde_json::Value::default()
                 }
-                None => request.url,
             };
-            println!("Request Endpoint {} {:?}", endpoint, request.token);
-        });
-        println!("Request Handler output {:?}", handle_requests.join().unwrap());
+        Ok(response)
+    } else {
+        let response: serde_json::Value =
+            match make_get_request(URL::WithoutBaseUrl(endpoint), token, request.headers) {
+                Ok(result) => serde_json::to_value(&result).unwrap(),
+                Err(error) => {
+                    println!("Error in GET request {:?}", error);
+                    serde_json::Value::default()
+                }
+            };
+        Ok(response)
     }
-
-    
-
-    // if method == "POST".to_string() {
-    //     let response: serde_json::Value =
-    //         match make_post_request(URL::WithoutBaseUrl(endpoint), token, data, headers) {
-    //             Ok(result) => serde_json::to_value(result).unwrap(),
-    //             Err(error) => {
-    //                 println!("Error in POST request {:?}", error);
-    //                 serde_json::Value::default()
-    //             }
-    //         };
-    //     Ok(response)
-    // } else {
-    //     let response: serde_json::Value =
-    //         match make_get_request(URL::WithoutBaseUrl(endpoint), token, headers) {
-    //             Ok(result) => serde_json::to_value(&result).unwrap(),
-    //             Err(error) => {
-    //                 println!("Error in GET request {:?}", error);
-    //                 serde_json::Value::default()
-    //             }
-    //         };
-    //     Ok(response)
-    // }
 }
 
 #[tauri::command]
