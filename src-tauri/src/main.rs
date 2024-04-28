@@ -10,6 +10,7 @@ mod api;
 mod command;
 mod error;
 mod models;
+mod lib;
 
 use models::AuthState;
 
