@@ -8,8 +8,7 @@
 
 
 ## Made using
-- Rust for Backend logic
-- Vite for Frontend
+- Rust and Vite
 
 ## Contributing with Ideas
 Ideas about the features and enhancements of this platform are being talked about in <a href="https://github.com/aditya172926/deskit/discussions">Discussions</a>. You can add your thoughts to an existing idea or create a new discussion for a new feature or enhancement that comes to your mind and contribute to the development of DeskIt.
