@@ -3,7 +3,7 @@
   
   # DeskIt
   
-  A Desktop app for exploring and working with Open Source Projects
+  A Desktop app for working and managing your Open Source Projects
 </div>
 
 
