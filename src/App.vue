@@ -1,7 +1,31 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { invoke } from "@tauri-apps/api/core";
+import { onMounted, onUnmounted, ref } from "vue";
 
 const text = ref(""); // This holds the notepad content
+
+async function handleKeyDown(e: KeyboardEvent) {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
+    e.preventDefault();
+    console.log("Save action triggered");
+    await invoke("save_file", {
+      contents: text.value
+    }).then(() => {
+      console.log("File saved successfully");
+    }).catch((error) => {
+      console.error("Error saving file:", error);
+    })
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("keydown", handleKeyDown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeyDown);
+});
+
 </script>
 
 <template>
