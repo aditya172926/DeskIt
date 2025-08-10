@@ -2,8 +2,8 @@ use std::fs::File;
 use std::io::Write;
 
 #[tauri::command]
-pub fn save_file(contents: String) -> Result<(), String> {
-    let mut file = match File::create("output.txt") {
+pub fn save_file(contents: String, path: String) -> Result<(), String> {
+    let mut file = match File::create(path.as_str()) {
         Ok(file) => file,
         Err(e) => return Err(format!("Failed to create file: {}", e)),
     };
