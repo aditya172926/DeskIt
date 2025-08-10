@@ -56,7 +56,7 @@ onUnmounted(() => {
     <textarea
       v-model="text"
       class="notepad"
-      placeholder="Start writing..."
+      placeholder="Start to write"
     ></textarea>
   </main>
 </template>
