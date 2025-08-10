@@ -22,9 +22,9 @@ async function saveFile(contents: String) {
 
 async function handleKeyDown(e: KeyboardEvent) {
   if ((e.ctrlKey || e.metaKey)) {
-    e.preventDefault();
     let pressed_key = e.key.toLowerCase();
     if (pressed_key === "s") {
+      e.preventDefault();
       console.log("Save action triggered");
       await saveFile(text.value).then(() => {
         console.log("File saved successfully");
@@ -35,6 +35,7 @@ async function handleKeyDown(e: KeyboardEvent) {
 
     const action = all_shortcuts[pressed_key];
     if (action) {
+      e.preventDefault();
       action();
     }
   }
