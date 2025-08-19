@@ -1,42 +1,30 @@
 <script setup lang="ts">
-import { invoke } from "@tauri-apps/api/core";
 import { onMounted, onUnmounted, ref } from "vue";
-import { save } from "@tauri-apps/plugin-dialog";
-import { all_shortcuts } from "./shortcut_handlers";
+import { all_shortcuts } from "./handlers/shortcut_handlers";
+import { saveFile } from "./handlers/shortcut_handlers/file_handler";
+import { ShortcutParams } from "./types";
 
 const text = ref(""); // This holds the notepad content
 
-async function saveFile(contents: String) {
-  // Let the user choose where to save
-  const filePath = await save({
-    defaultPath: 'document.txt', // default suggestion
-    filters: [
-      { name: 'Text Files', extensions: ['txt'] }
-    ]
-  });
-
-  if (filePath) {
-    await invoke('save_file', { contents, path: filePath });
-  }
-}
 
 async function handleKeyDown(e: KeyboardEvent) {
   if ((e.ctrlKey || e.metaKey)) {
     let pressed_key = e.key.toLowerCase();
+    let args: ShortcutParams = {
+      args: undefined
+    };
+
+    // if saving a file
     if (pressed_key === "s") {
-      e.preventDefault();
-      console.log("Save action triggered");
-      await saveFile(text.value).then(() => {
-        console.log("File saved successfully");
-      }).catch((error) => {
-        console.error("Error saving file:", error);
-      })
+      args.args = {
+        content: text.value
+      }
     }
 
     const action = all_shortcuts[pressed_key];
     if (action) {
       e.preventDefault();
-      action();
+      action(args);
     }
   }
 }
