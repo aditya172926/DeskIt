@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted } from "vue";
 import { all_shortcuts } from "./handlers/shortcut_handlers";
-import { saveFile } from "./handlers/shortcut_handlers/file_handler";
 import { ShortcutParams } from "./types";
-
-const text = ref(""); // This holds the notepad content
-
+import { file_content } from "./context/document_store"; // holds the notepad content
 
 async function handleKeyDown(e: KeyboardEvent) {
   if ((e.ctrlKey || e.metaKey)) {
@@ -17,14 +14,15 @@ async function handleKeyDown(e: KeyboardEvent) {
     // if saving a file
     if (pressed_key === "s") {
       args.args = {
-        content: text.value
+        content: file_content.value
       }
     }
 
     const action = all_shortcuts[pressed_key];
     if (action) {
       e.preventDefault();
-      action(args);
+      let res = action(args);
+
     }
   }
 }
@@ -42,7 +40,7 @@ onUnmounted(() => {
 <template>
   <main class="editor-container">
     <textarea
-      v-model="text"
+      v-model="file_content"
       class="notepad"
       placeholder="Start to write"
     ></textarea>

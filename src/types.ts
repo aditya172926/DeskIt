@@ -5,3 +5,7 @@ export interface FileShortcutParams {
 export interface ShortcutParams {
     args?: FileShortcutParams
 }
+
+export interface ShortcutReturnParams {
+    content?: string
+}
