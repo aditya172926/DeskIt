@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core";
 import { message, open, save } from "@tauri-apps/plugin-dialog";
-import { ShortcutParams, ShortcutReturnParams } from "../../types";
+import { ShortcutParams } from "../../types";
 import { set_file_content } from "../../context/document_store";
 
 export const file_shortcut_actions: Record<string, (args?: ShortcutParams) => void> = {
