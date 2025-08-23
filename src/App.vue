@@ -21,8 +21,7 @@ async function handleKeyDown(e: KeyboardEvent) {
     const action = all_shortcuts[pressed_key];
     if (action) {
       e.preventDefault();
-      let res = action(args);
-
+      action(args);
     }
   }
 }
