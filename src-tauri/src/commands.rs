@@ -12,3 +12,8 @@ pub fn save_file(contents: String, path: String) -> Result<(), String> {
         .map_err(|e| format!("Failed to write to file: {}", e))?;
     Ok(())
 }
+
+#[tauri::command]
+pub fn read_file(path: String) -> Result<String, String> {
+    std::fs::read_to_string(&path).map_err(|e| format!("Backend failed to read file at {}: {}", path, e))
+}
